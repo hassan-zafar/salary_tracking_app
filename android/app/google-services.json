@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "165461244282",
+    "project_id": "wageme-29f75",
+    "storage_bucket": "wageme-29f75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165461244282:android:2a19cf48cb247bddf5fec3",
+        "android_client_info": {
+          "package_name": "com.hassan.salary_tracking_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165461244282-lai74htkrq0smt0sai945ij8tnfhger5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hassan.salary_tracking_app",
+            "certificate_hash": "d3984de38e8552e8a961dbb0688d5693105fc273"
+          }
+        },
+        {
+          "client_id": "165461244282-kpq9uddvrftbmlq5s1jj2jbhfvj1g20j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGBQ1Fb_90dbQ8bRTT8k4I2FZQZ17TLxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165461244282-kpq9uddvrftbmlq5s1jj2jbhfvj1g20j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
