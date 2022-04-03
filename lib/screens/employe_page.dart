@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EmployeePage extends StatefulWidget {
-  const EmployeePage({ Key? key }) : super(key: key);
+  const EmployeePage({Key? key}) : super(key: key);
 
   @override
   State<EmployeePage> createState() => _EmployeePageState();
@@ -10,13 +10,18 @@ class EmployeePage extends StatefulWidget {
 class _EmployeePageState extends State<EmployeePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:Column(children: [Container(child: Row(
+    return Scaffold(
+        body: Column(
       children: [
-        Text('Log Starting Time'),
-        TimePickerDialog(initialTime: TimeOfDay.now())
+        Container(
+          child: Row(
+            children: [
+              Text('Log Starting Time'),
+              TimePickerDialog(initialTime: TimeOfDay.now())
+            ],
+          ),
+        )
       ],
-    ),)],)
-      
-    );
+    ));
   }
 }
