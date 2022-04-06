@@ -8,6 +8,12 @@
             "name": "salary_tracking_app",
             "request": "launch",
             "type": "dart"
+        },        
+        {
+            "name": "salary_tracking_app web",
+            "request": "launch",
+            "type": "dart",
+            "args": ["-d", "chrome", "--web-port=5000"]
         },
         {
             "name": "salary_tracking_app (profile mode)",

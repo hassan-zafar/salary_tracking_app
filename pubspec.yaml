@@ -29,13 +29,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_storage:
   image_picker:
+  firebase_storage:
   cloud_firestore:
+  firebase_core:
   firebase_auth:
+  google_sign_in:
   wave:
   fluttertoast:
-  google_sign_in:
   cached_network_image:
   provider:
   get_storage:
