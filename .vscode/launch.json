@@ -13,7 +13,7 @@
             "name": "salary_tracking_app web",
             "request": "launch",
             "type": "dart",
-            "args": ["-d", "chrome", "--web-port=5000"]
+            "args": ["-d", "chrome", "--web-port=5050"]
         },
         {
             "name": "salary_tracking_app (profile mode)",

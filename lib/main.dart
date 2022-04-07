@@ -35,7 +35,17 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+    await Firebase.initializeApp(
+  options: const FirebaseOptions(
+      apiKey: 'AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw',
+      appId: '1:165461244282:web:2b6de2f5801e842af5fec3',
+      messagingSenderId: '165461244282',
+      projectId: 'wageme-29f75',
+      authDomain: 'wageme-29f75.firebaseapp.com', 
+      storageBucket: "wageme-29f75.appspot.com",
+      measurementId: "G-LGZP9WMLVH"
+    ),
+    );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await flutterLocalNotificationsPlugin
