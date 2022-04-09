@@ -17,7 +17,16 @@ class _EmployeePageState extends State<EmployeePage> {
           child: Row(
             children: [
               Text('Log Starting Time'),
-              TimePickerDialog(initialTime: TimeOfDay.now())
+              TimePickerDialog(initialTime: TimeOfDay.now()),
+              Opacity(
+                opacity: 0.4,
+                child: Row(
+                  children: [
+                    const Text('Log End Time'),
+                    TimePickerDialog(initialTime: TimeOfDay.now())
+                  ],
+                ),
+              ),
             ],
           ),
         )
