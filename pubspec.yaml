@@ -54,8 +54,7 @@ dependencies:
   video_player:
   bot_toast:
 
-  connectivity:
-  dio:
+  table_calendar:
   permission_handler:
   flutter_file_extention:
   image_gallery_saver:

@@ -4,6 +4,7 @@ import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
 import 'package:salary_tracking_app/screens/adminScreens/allUsers.dart';
 import 'package:salary_tracking_app/screens/adminScreens/chatLists.dart';
 import 'package:salary_tracking_app/screens/adminScreens/uploadVideo.dart';
+import 'package:salary_tracking_app/screens/employe_page.dart';
 import 'package:salary_tracking_app/screens/home_page.dart';
 import 'package:salary_tracking_app/screens/user_info.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   @override
   void initState() {
     pages = [
+      const EmployeePage(),
       HomePage(),
       UserNSearch(),
       const UserInfoScreen(),
@@ -80,6 +82,11 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                       Icons.home,
                     ),
                     label: 'Home Page'),
+                const BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.home,
+                    ),
+                    label: 'Log Page'),
                 const BottomNavigationBarItem(
                     icon: Icon(
                       Icons.people,
