@@ -93,12 +93,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: BoxDecoration(
                     //  color: Theme.of(context).backgroundColor,
                     borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        'https://image.flaticon.com/icons/png/128/869/869636.png',
-                      ),
-                      fit: BoxFit.fill,
-                    ),
+                    // image: DecorationImage(
+                    //   image: NetworkImage(
+                    //     'https://image.flaticon.com/icons/png/128/869/869636.png',
+                    //   ),
+                    //   fit: BoxFit.fill,
+                    // ),
                     shape: BoxShape.rectangle,
                   ),
                 ),

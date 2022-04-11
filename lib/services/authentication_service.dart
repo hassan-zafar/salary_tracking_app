@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -20,34 +22,34 @@ class AuthenticationService {
     // UserLocalData().logOut();
   }
 
-  Future logIn({
-    required String email,
-    required final String password,
-  }) async {
-    print("here");
-    try {
-      // final UserCredential result =
-      await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        print(" auth service login: $value");
-        print(" auth service login uid: ${value.user!.uid}");
+  // Future logIn({
+  //   required String email,
+  //   required final String password,
+  // }) async {
+  //   print("here");
+  //   try {
+  //     // final UserCredential result =
+  //     await _firebaseAuth
+  //         .signInWithEmailAndPassword(email: email, password: password)
+  //         .then((value) {
+  //       print(" auth service login: $value");
+  //       print(" auth service login uid: ${value.user!.uid}");
 
-        // return value.user!.uid;
-        DatabaseMethods()
-            .fetchUserInfoFromFirebase(uid: value.user!.uid)
-            .then((value) => Get.off(() => LandingPage()));
-      });
-      // return result.user!.uid;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        errorToast(message: 'No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
-  }
+  //       // return value.user!.uid;
+  //       DatabaseMethods()
+  //           .fetchUserInfoFromFirebase(uid: value.user!.uid)
+  //           .then((value) => Get.off(() => LandingPage()));
+  //     });
+  //     // return result.user!.uid;
+  //   } on FirebaseAuthException catch (e) {
+  //     if (e.code == 'user-not-found') {
+  //       print('No user found for that email.');
+  //       errorToast(message: 'No user found for that email.');
+  //     } else if (e.code == 'wrong-password') {
+  //       print('Wrong password provided for that user.');
+  //     }
+  //   }
+  // }
 
   Future deleteUser(String email, String password) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -70,12 +72,17 @@ class AuthenticationService {
   }
 
   Future<bool> signinWithGoogle() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    GoogleSignIn googleSignIn = GoogleSignIn(scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],clientId: '705884143448-evgaqsm4qmottc3o9mn2na1hqa0bk92s.apps.googleusercontent.com', signInOption: SignInOption.standard);
+
     final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     if (googleAccount != null) {
       print('here');
+
       final GoogleSignInAuthentication googleAuth =
           await googleAccount.authentication;
 
@@ -119,6 +126,7 @@ class AuthenticationService {
             }
           }
         } catch (error) {
+          print(error.toString());
           CustomToast.errorToast(message: error.toString());
         }
       }

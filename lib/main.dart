@@ -29,35 +29,33 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-}
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: 'Wage Me',
     options: const FirebaseOptions(
-        apiKey: 'AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw',
-        appId: '1:165461244282:web:2b6de2f5801e842af5fec3',
-        messagingSenderId: '165461244282',
-        projectId: 'wageme-29f75',
-        authDomain: 'wageme-29f75.firebaseapp.com',
-        storageBucket: "wageme-29f75.appspot.com",
-        measurementId: "G-LGZP9WMLVH"),
+       apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
+      authDomain: "wageme-29f75.firebaseapp.com",
+      projectId: "wageme-29f75",
+      storageBucket: "wageme-29f75.appspot.com",
+      messagingSenderId: "165461244282",
+      appId: "1:165461244282:web:2b6de2f5801e842af5fec3",
+      measurementId: "G-LGZP9WMLVH"
+    ),
   );
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
   runApp(MyApp());
 }
 
