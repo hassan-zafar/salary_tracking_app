@@ -72,10 +72,14 @@ class AuthenticationService {
   }
 
   Future<bool> signinWithGoogle() async {
-    GoogleSignIn googleSignIn = GoogleSignIn(scopes: <String>[
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],clientId: '705884143448-evgaqsm4qmottc3o9mn2na1hqa0bk92s.apps.googleusercontent.com', signInOption: SignInOption.standard);
+    GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: <String>[
+          'email',
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+        clientId:
+            '705884143448-evgaqsm4qmottc3o9mn2na1hqa0bk92s.apps.googleusercontent.com',
+        signInOption: SignInOption.standard);
 
     final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
     final FirebaseAuth _auth = FirebaseAuth.instance;
