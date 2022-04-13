@@ -295,7 +295,7 @@ class _LandingPageState extends State<LandingPage>
                       await AuthenticationService().signinWithGoogle();
                   if (_login!) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => MainScreens(),
+                      builder: (context) => const MainScreens(),
                     ));
                   } else {
                     Navigator.of(context).pop();
