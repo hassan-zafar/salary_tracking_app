@@ -12,7 +12,15 @@ class _EmployeePageState extends State<EmployeePage> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  TextEditingController _startTimecontroller = TextEditingController();
+  late TextEditingController _startTimeController;
+  late TextEditingController _endTimeController;
+  @override
+  void initState() {
+    super.initState();
+    _startTimeController = TextEditingController();
+    _endTimeController = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,7 +29,7 @@ class _EmployeePageState extends State<EmployeePage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             isExtended: true,
-            label: Text('Submit'),
+            label: const Text('Submit'),
             onPressed: () {},
           ),
           body: SingleChildScrollView(
@@ -59,40 +67,73 @@ class _EmployeePageState extends State<EmployeePage> {
                     CalendarFormat.week: 'Week',
                   },
                 ),
-                Row(
-                  children: [
-                    const Expanded(
-                        child: Text(
-                      'Log Starting Time:',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                    )),
-                    Expanded(
-                      child: Card(
-                        margin: EdgeInsets.all(8),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: _startTimecontroller,
-                            onTap: () async {
-                              var asd = await showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay.now());
-                              _startTimecontroller.text = asd!.format(context);
-                              print(asd);
-                            },
+                Opacity(
+                  opacity: _endTimeController.text.isEmpty ? 1 : 0.1,
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          child: Text(
+                        'Log Starting Time:',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w500),
+                      )),
+                      Expanded(
+                        child: Card(
+                          margin: EdgeInsets.all(8),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              enabled: _endTimeController.text.isEmpty,
+                              controller: _startTimeController,
+                              onTap: () async {
+                                var asd = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.now());
+                                setState(() {
+                                  _startTimeController.text =
+                                      asd!.format(context);
+                                });
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
                 Opacity(
-                  opacity: 0.4,
-                  child: Column(
+                  opacity: _startTimeController.text.isEmpty ? 0.1 : 1,
+                  child: Row(
                     children: [
-                      const Text('Log End Time'),
-                      TimePickerDialog(initialTime: TimeOfDay.now())
+                      const Expanded(
+                          child: Text(
+                        'Log Ending Time:',
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.w500),
+                      )),
+                      Expanded(
+                        child: Card(
+                          margin: EdgeInsets.all(8),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              controller: _endTimeController,
+                              enabled: _startTimeController.text.isNotEmpty,
+                              onTap: () async {
+                                if (_startTimeController.text.isNotEmpty) {
+                                  var asd = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.now());
+                                  setState(() {
+                                    _endTimeController.text =
+                                        asd!.format(context);
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 )

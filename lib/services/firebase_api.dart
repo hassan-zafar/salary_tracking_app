@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/models/firebase_file.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -16,10 +18,19 @@ class FirebaseApi {
     }
   }
 
+  submitEmployeeTime(String startTime, String endTime) async {
+    return FirebaseFirestore.instance.collection('employeeTime').add({
+      'startTime': startTime,
+      'endTime': endTime,
+      'employeeId': currentUser!.id,
+    }).then((value) {
+      print(value.id);
+    });
+  }
+
   static Future<List<FirebaseFile>> listAll(String path) async {
     final ref = FirebaseStorage.instance.ref(path);
     final result = await ref.listAll();
-
     final urls = await _getDownloadLinks(result.items);
 
     return urls

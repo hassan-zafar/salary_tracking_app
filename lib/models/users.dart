@@ -11,6 +11,8 @@ class AppUserModel {
   final String? email;
   final String? androidNotificationToken;
   final String? subscriptionEndTIme;
+  final String? companyName;
+  final double? wage;
 
   // final Map? sectionsAppointed;
   AppUserModel(
@@ -23,8 +25,10 @@ class AppUserModel {
       this.isAdmin,
       this.subscriptionEndTIme,
       this.email,
-      this.androidNotificationToken});
-
+      this.androidNotificationToken,
+      this.wage,
+      this.companyName});
+//Katy,Laporte,Houston
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -35,6 +39,8 @@ class AppUserModel {
       'timestamp': timestamp,
       'subscriptionEndTIme': subscriptionEndTIme,
       'isAdmin': isAdmin,
+      'companyName': companyName,
+      'wage': wage,
       'email': email,
       'androidNotificationToken': androidNotificationToken,
     };
@@ -50,6 +56,8 @@ class AppUserModel {
         imageUrl: map['imageUrl'],
         isAdmin: map['isAdmin'],
         subscriptionEndTIme: map['subscriptionEndTIme'],
+        wage: map['wage'],
+        companyName: map['companyName'],
         email: map['email'],
         androidNotificationToken: map['androidNotificationToken']);
   }
@@ -66,6 +74,8 @@ class AppUserModel {
       subscriptionEndTIme: doc.data()["subscriptionEndTIme"],
       phoneNo: doc.data()["phoneNo"],
       androidNotificationToken: doc.data()["androidNotificationToken"],
+      companyName: doc.data()["companyName"],
+      wage: doc.data()["wage"],
     );
   }
 

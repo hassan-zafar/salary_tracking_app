@@ -34,15 +34,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-       apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
-      authDomain: "wageme-29f75.firebaseapp.com",
-      projectId: "wageme-29f75",
-      storageBucket: "wageme-29f75.appspot.com",
-      messagingSenderId: "165461244282",
-      appId: "1:165461244282:web:2b6de2f5801e842af5fec3",
-      measurementId: "G-LGZP9WMLVH"
-    ),
+    // options: const FirebaseOptions(
+    //    apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
+    //   authDomain: "wageme-29f75.firebaseapp.com",
+    //   projectId: "wageme-29f75",
+    //   storageBucket: "wageme-29f75.appspot.com",
+    //   messagingSenderId: "165461244282",
+    //   appId: "1:165461244282:web:2b6de2f5801e842af5fec3",
+    //   measurementId: "G-LGZP9WMLVH"
+    // ),
   );
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
