@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "165461244282",
+    "firebase_url": "https://wageme-29f75-default-rtdb.firebaseio.com",
     "project_id": "wageme-29f75",
     "storage_bucket": "wageme-29f75.appspot.com"
   },
@@ -14,16 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "165461244282-lai74htkrq0smt0sai945ij8tnfhger5.apps.googleusercontent.com",
+          "client_id": "165461244282-q6n840gepgqm58bcvvvflfnopd9gkoeg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.hassan.salary_tracking_app",
             "certificate_hash": "d3984de38e8552e8a961dbb0688d5693105fc273"
           }
-        },
-        {
-          "client_id": "165461244282-kpq9uddvrftbmlq5s1jj2jbhfvj1g20j.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [

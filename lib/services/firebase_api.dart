@@ -4,6 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/models/firebase_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:salary_tracking_app/widgets/custom_toast.dart';
+
+import '../widgets/custom_toast copy.dart';
 
 class FirebaseApi {
   static Future<List<String>> _getDownloadLinks(List<Reference> refs) =>
@@ -18,14 +21,18 @@ class FirebaseApi {
     }
   }
 
-  submitEmployeeTime(String startTime, String endTime) async {
-    return FirebaseFirestore.instance.collection('employeeTime').add({
-      'startTime': startTime,
-      'endTime': endTime,
-      'employeeId': currentUser!.id,
-    }).then((value) {
-      print(value.id);
-    });
+  submitEmployeeTime(
+      String startTime, String endTime, DateTime seletedDay) async {
+    try {
+      employeeTimeRef.doc(currentUser!.id).set({
+        'startTime': startTime,
+        'endTime': endTime,
+        'date': seletedDay.toIso8601String(),
+      }).then((value) => CustomToast.successToast(
+          message: 'Time Submitted Successfully', duration: 2));
+    } on FirebaseException catch (e) {
+      CustomToast.errorToast(message: e.message.toString());
+    }
   }
 
   static Future<List<FirebaseFile>> listAll(String path) async {
