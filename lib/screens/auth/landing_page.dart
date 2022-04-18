@@ -143,7 +143,7 @@ class _LandingPageState extends State<LandingPage>
     return Scaffold(
         body: Stack(children: [
       Image.asset(
-       images[1],
+        images[1],
         fit: BoxFit.cover,
         height: double.infinity,
         width: double.infinity,
@@ -154,7 +154,7 @@ class _LandingPageState extends State<LandingPage>
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children:const [
+          children: const [
             Text(
               'Welcome',
               style: TextStyle(
@@ -166,7 +166,7 @@ class _LandingPageState extends State<LandingPage>
               height: 20,
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 30),
               child: Text(
                 'Welcome to Wage me',
                 textAlign: TextAlign.center,
@@ -184,7 +184,7 @@ class _LandingPageState extends State<LandingPage>
         children: [
           Row(
             children: [
-            const  SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: ElevatedButton(
                     style: ButtonStyle(
@@ -200,7 +200,7 @@ class _LandingPageState extends State<LandingPage>
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const[
+                      children: const [
                         Text(
                           'Login',
                           style: TextStyle(
@@ -235,7 +235,7 @@ class _LandingPageState extends State<LandingPage>
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:const [
+                      children: const [
                         Text(
                           'Sign up',
                           style: TextStyle(
@@ -258,7 +258,7 @@ class _LandingPageState extends State<LandingPage>
             height: 30,
           ),
           Row(
-            children:const [
+            children: const [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -289,36 +289,39 @@ class _LandingPageState extends State<LandingPage>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              OutlineButton(
-                onPressed: () async {
-                  final bool? _login =
-                      await AuthenticationService().signinWithGoogle();
-                  if (_login!) {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const MainScreens(),
-                    ));
-                  } else {
-                    Navigator.of(context).pop();
-                  }
-                },
-                shape: const StadiumBorder(),
-                highlightedBorderColor: Colors.red.shade200,
-                borderSide: const BorderSide(width: 2, color: Colors.red),
-                child: const Text('Google'),
-              ),
               _isLoading
                   ? const CircularProgressIndicator()
                   : OutlineButton(
-                      onPressed: () {
-                        _loginAnonymosly();
-                        // Navigator.pushNamed(context, BottomBarScreen.routeName);
+                      onPressed: () async {
+                        final bool? _login =
+                            await AuthenticationService().signinWithGoogle();
+                        if (_login!) {
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                            builder: (context) => const MainScreens(),
+                          ));
+                        } else {
+                          Navigator.of(context).pop();
+                        }
                       },
                       shape: const StadiumBorder(),
-                      highlightedBorderColor: Colors.deepPurple.shade200,
-                      borderSide:
-                          const BorderSide(width: 2, color: Colors.deepPurple),
-                      child: const Text('Sign in as a guest'),
+                      highlightedBorderColor: Colors.red.shade200,
+                      borderSide: const BorderSide(width: 2, color: Colors.red),
+                      child: const Text('Google'),
                     ),
+              // _isLoading
+              //     ? const CircularProgressIndicator()
+              //     : OutlineButton(
+              //         onPressed: () {
+              //           _loginAnonymosly();
+              //           // Navigator.pushNamed(context, BottomBarScreen.routeName);
+              //         },
+              //         shape: const StadiumBorder(),
+              //         highlightedBorderColor: Colors.deepPurple.shade200,
+              //         borderSide:
+              //             const BorderSide(width: 2, color: Colors.deepPurple),
+              //         child: const Text('Sign in as a guest'),
+              //       ),
             ],
           ),
           const SizedBox(
