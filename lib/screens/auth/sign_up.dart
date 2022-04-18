@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _emailAddress = '';
   String _password = '';
   String _fullName = '';
+  String _companyName = '';
   int? _phoneNumber;
   File? _pickedImage;
   String? url;
@@ -39,6 +41,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+  List companies = [
+    'Katy',
+    'Laporte',
+    'Houston',
+  ];
   void _submitForm() async {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
@@ -72,6 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'id': _uid,
             'name': _fullName,
             'email': _emailAddress,
+            'companyName': _companyName,
             'phoneNumber': _phoneNumber,
             'imageUrl': url,
             'subscriptionEndTIme': DateTime.now().toIso8601String(),
@@ -396,6 +404,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             _phoneNumber = int.parse(value!);
                           },
                         ),
+                      ),
+                      Row(
+                        children: [
+                          const Expanded(
+                              flex: 1,
+                              child: Text(
+                                'Select Company',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 17),
+                              )),
+                          Expanded(
+                            flex: 2,
+                            child: CupertinoPicker(
+                              itemExtent: 40,
+                              magnification: 1.2,
+                              looping: true,
+                              offAxisFraction: 0,
+                              useMagnifier: true,
+                              squeeze: 2,
+                              onSelectedItemChanged: (index) {
+                                setState(() {
+                                  _companyName = companies[index];
+                                });
+                              },
+                              children: companies
+                                  .map((company) => Text(
+                                        company,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
+                                            fontSize: 17),
+                                      ))
+                                  .toList(),
+                            ),
+                          ),
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
