@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  uuid:
+  
   image_picker:
   firebase_storage:
   cloud_firestore:

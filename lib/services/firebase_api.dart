@@ -2,9 +2,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
+import 'package:salary_tracking_app/models/employeeTimeModel.dart';
 import 'package:salary_tracking_app/models/firebase_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:salary_tracking_app/models/users.dart';
 import 'package:salary_tracking_app/widgets/custom_toast.dart';
+import 'package:uuid/uuid.dart';
 
 import '../widgets/custom_toast copy.dart';
 
@@ -21,15 +24,29 @@ class FirebaseApi {
     }
   }
 
+
+
   submitEmployeeTime(
-      String startTime, String endTime, DateTime seletedDay) async {
+      String startTime, String endTime, DateTime seletedDay,int totalTime) async
+      
+       {
     try {
-      employeeTimeRef.doc(currentUser!.id).set({
+      employeeTimeRef
+          .doc('${seletedDay.day}-${seletedDay.month}-${seletedDay.year}')
+          .collection('employeeDayData')
+          .doc(currentUser!.id)
+          .set({
         'startTime': startTime,
+        'uid': currentUser!.id,
         'endTime': endTime,
-        'date': seletedDay.toIso8601String(),
+        'employeeId': currentUser!.id,
+        'companyName': currentUser!.companyName,
+        'employeeName': '${currentUser!.name}',
+        'totalTime': totalTime,
+        'date': '${seletedDay.day}-${seletedDay.month}-${seletedDay.year}',
+        'timeStamp': Timestamp.now(),
       }).then((value) => CustomToast.successToast(
-          message: 'Time Submitted Successfully', duration: 2));
+              message: 'Time Submitted Successfully', duration: 2));
     } on FirebaseException catch (e) {
       CustomToast.errorToast(message: e.message.toString());
     }

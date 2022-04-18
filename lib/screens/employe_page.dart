@@ -18,6 +18,8 @@ class _EmployeePageState extends State<EmployeePage> {
   DateTime? _selectedDay = DateTime.now();
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
+  late TimeOfDay startTimeOfDay;
+  late TimeOfDay endTimeOfDay;
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -36,16 +38,34 @@ class _EmployeePageState extends State<EmployeePage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             isExtended: true,
-            label: _isLoading?const CircularProgressIndicator(): const Text('Submit'),
+            label: _isLoading
+                ? const CircularProgressIndicator()
+                : const Text('Submit'),
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 setState(() {
                   _isLoading = true;
                 });
+                final now = DateTime.now();
+                DateTime _startTime = DateTime(now.month, now.month, now.day,
+                    startTimeOfDay.hour, startTimeOfDay.minute);
+                DateTime _endTime = DateTime(now.month, now.month, now.day,
+                    endTimeOfDay.hour, endTimeOfDay.minute);
+                final difference = _endTime.difference(_startTime).inSeconds;
+                print(difference);
+                double _doubleStartTime = startTimeOfDay.hour.toDouble() +
+                    (startTimeOfDay.minute.toDouble() / 60);
+                double _doubleEndTime = endTimeOfDay.hour.toDouble() +
+                    (endTimeOfDay.minute.toDouble() / 60);
+                double _timeDiff = _doubleEndTime - _doubleStartTime;
+                int _hr = _timeDiff.truncate();
+                double totalTime = (_timeDiff - _timeDiff.truncate()) * 60;
+
                 await FirebaseApi().submitEmployeeTime(
-                    _startTimeController.text,
-                    _endTimeController.text,
-                    _selectedDay!);
+                    startTimeOfDay.format(context),
+                    endTimeOfDay.format(context),
+                    _selectedDay!,
+                    difference);
                 setState(() {
                   _isLoading = false;
                   _endTimeController.clear();
@@ -107,7 +127,8 @@ class _EmployeePageState extends State<EmployeePage> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                enabled: _endTimeController.text.isEmpty,validator: (value) {
+                                enabled: _endTimeController.text.isEmpty,
+                                validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter starting time';
                                   }
@@ -121,6 +142,7 @@ class _EmployeePageState extends State<EmployeePage> {
                                   setState(() {
                                     _startTimeController.text =
                                         asd!.format(context);
+                                    startTimeOfDay = asd;
                                   });
                                 },
                               ),
@@ -146,7 +168,8 @@ class _EmployeePageState extends State<EmployeePage> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                controller: _endTimeController,validator: (value) {
+                                controller: _endTimeController,
+                                validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter ending time';
                                   }
@@ -161,6 +184,7 @@ class _EmployeePageState extends State<EmployeePage> {
                                     setState(() {
                                       _endTimeController.text =
                                           asd!.format(context);
+                                      endTimeOfDay = asd;
                                     });
                                   }
                                 },

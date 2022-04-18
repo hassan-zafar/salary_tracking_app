@@ -7,6 +7,7 @@ import 'package:salary_tracking_app/main_screen.dart';
 import 'package:salary_tracking_app/provider/auto_play_provider.dart';
 import 'package:salary_tracking_app/provider/background_play_provider.dart';
 import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
+import 'package:salary_tracking_app/provider/employee_time.dart';
 import 'package:salary_tracking_app/provider/favs_provider.dart';
 import 'package:salary_tracking_app/provider/notification_preferences.dart';
 import 'package:salary_tracking_app/provider/products.dart';
@@ -34,16 +35,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    // options: const FirebaseOptions(
-    //    apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
-    //   authDomain: "wageme-29f75.firebaseapp.com",
-    //   projectId: "wageme-29f75",
-    //   storageBucket: "wageme-29f75.appspot.com",
-    //   messagingSenderId: "165461244282",
-    //   appId: "1:165461244282:web:2b6de2f5801e842af5fec3",
-    //   measurementId: "G-LGZP9WMLVH"
-    // ),
-  );
+      // options: const FirebaseOptions(
+      //    apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
+      //   authDomain: "wageme-29f75.firebaseapp.com",
+      //   projectId: "wageme-29f75",
+      //   storageBucket: "wageme-29f75.appspot.com",
+      //   messagingSenderId: "165461244282",
+      //   appId: "1:165461244282:web:2b6de2f5801e842af5fec3",
+      //   measurementId: "G-LGZP9WMLVH"
+      // ),
+      );
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // await flutterLocalNotificationsPlugin
@@ -110,6 +111,7 @@ class _MyAppState extends State<MyApp> {
           }
           return MultiProvider(
             providers: [
+              ChangeNotifierProvider(create: (_) => EmployeeTimeProvider()),
               ChangeNotifierProvider(create: (_) {
                 return themeChangeProvider;
               }),
@@ -122,12 +124,6 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) {
                 return backgroundPlayProvider;
               }),
-              ChangeNotifierProvider(
-                create: (_) => Products(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => FavsProvider(),
-              ),
             ],
             child: Consumer<DarkThemeProvider>(
               builder: (context, themeChangeProvider, ch) {
