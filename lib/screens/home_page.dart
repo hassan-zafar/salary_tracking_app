@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salary_tracking_app/Extensions/integer_extensions.dart';
+import 'package:salary_tracking_app/consts/consants.dart';
 import 'package:salary_tracking_app/models/employeeTimeModel.dart';
 import 'package:salary_tracking_app/provider/employee_time.dart';
 import 'package:salary_tracking_app/services/firebase_api.dart';
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   final date =
       '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}';
   bool isLoading = false;
-      List<EmployeeTimeModel> employeeTimeList = [];
+  List<EmployeeTimeModel> employeeTimeList = [];
 
   @override
   // void initState() {
@@ -64,20 +65,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   getAllEmployeeTime(String date) async {
-        setState(() {
+    setState(() {
       isLoading = true;
     });
     final List<EmployeeTimeModel> employeeTimeListTemp = [];
-    final snaphot=await employeeTimeRef
-        .doc(date)
-        .collection('employeeDayData')
-        .get();
-        snaphot
-            .docs
-            .forEach((element) {
-
-          employeeTimeListTemp.add(EmployeeTimeModel.fromDocument(element));
-        });
+    final snaphot =
+        await employeeTimeRef.doc(date).collection('employeeDayData').get();
+    snaphot.docs.forEach((element) {
+      employeeTimeListTemp.add(EmployeeTimeModel.fromDocument(element));
+    });
     // final allEmployees = await getAllEmployess();
 
     // allEmployees.forEach((employee) async {
@@ -88,12 +84,10 @@ class _HomePageState extends State<HomePage> {
     //   }
     // });
     setState(() {
-      
-    employeeTimeList= employeeTimeListTemp;
-    print('employeeTimeList $employeeTimeList');
-    isLoading = false;
+      employeeTimeList = employeeTimeListTemp;
+      print('employeeTimeList $employeeTimeList');
+      isLoading = false;
     });
-
   }
 
   getEmployeeTime(String employeeId, String date) async {
@@ -106,10 +100,11 @@ class _HomePageState extends State<HomePage> {
       print(snapshot.data());
 
       final asd = EmployeeTimeModel.fromDocument(snapshot);
-      
+
       return asd;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -120,44 +115,106 @@ class _HomePageState extends State<HomePage> {
                 itemCount: employeeTimeList.length,
                 itemBuilder: (context, index) {
                   EmployeeTimeModel employeeData = employeeTimeList[index];
-                  return Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    margin: const EdgeInsets.all(16),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Name:"),
-                              Text(employeeData.employeeName!),
-                            ],
+                  return InkWell(
+                    onDoubleTap: () {
+                      showDialog(context: context, builder: (context) {
+                        return AlertDialog(
+                          title: Text('Edit Employee Rate'),
+                          content: TextField(
+                            controller: TextEditingController(
+                                text: employeeData.rate.toString()),
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              labelText: 'Employee Rate',
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.timer),
-                                  Text('Total Time:'),
-                                  Text(employeeData.totalTime!.formatSecondsToTimeWithFormat),
-                                ],
-                              ),
-                              Row(
-                                children: const [
-                                  Icon(Icons.monetization_on_outlined),
-                                ],
-                              ),
-                              Text('30 \$'),
-                            ],
-                          ),
-                        ],
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text('Save'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                // setState(() {
+                                //   employeeData.rate =
+                                //       int.parse(
+                                //           (context as BuildContext).
+                                //               findRenderObject().
+                                //               debugSemantics.
+                                //               semanticsOwner.
+                                //               semantics.
+                                //               firstWhere((element) =>
+                                //                   element.label ==
+                                //                       'Employee Time')
+                                //                   .value);
+                                // });
+                              },
+                            ),
+                          ],
+                        );
+                      });
+                      
+                      
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      margin: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Text('${employeeData.companyName!}',
+                                style: titleTextStyle(context: context)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Name:",
+                                  style: titleTextStyle(
+                                      context: context, fontSize: 16),
+                                ),
+                                Text(employeeData.employeeName!),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.timer),
+                                    Text(
+                                      'Total Time:',
+                                      style: titleTextStyle(
+                                          context: context, fontSize: 16),
+                                    ),
+                                    Text(employeeData.totalTime!
+                                        .formatSecondsToTimeWithFormat),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Icon(Icons.monetization_on_outlined),
+                                    Text(
+                                      '30 \$',
+                                      style: titleTextStyle(
+                                          context: context, fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

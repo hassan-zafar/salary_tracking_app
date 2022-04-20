@@ -9,6 +9,7 @@ class EmployeeTimeModel {
   final String? employeeName;
   final String? employeeId;
   final String? companyName;
+  final double? rate;
   final int? totalTime;
 
   EmployeeTimeModel({
@@ -21,6 +22,7 @@ class EmployeeTimeModel {
     this.employeeId,
     this.companyName,
     this.totalTime,
+    this.rate,
   });
 //Katy,Laporte,Houston
   Map<String, dynamic> toMap() {
@@ -34,6 +36,7 @@ class EmployeeTimeModel {
       'employeeId': employeeId,
       'companyName': companyName,
       'totalTime': totalTime,
+      'rate': rate,
     };
   }
 
@@ -48,6 +51,7 @@ class EmployeeTimeModel {
       employeeId: map['employeeId'],
       companyName: map['companyName'],
       totalTime: map['totalTime'],
+      rate: map['rate'],
     );
   }
 
@@ -62,6 +66,7 @@ class EmployeeTimeModel {
       employeeId: doc.data()["employeeId"],
       companyName: doc.data()["companyName"],
       totalTime: doc.data()["totalTime"],
+      rate: doc.data()["rate"],
     );
   }
 
