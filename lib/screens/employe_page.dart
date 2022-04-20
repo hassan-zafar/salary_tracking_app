@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salary_tracking_app/services/firebase_api.dart';
 import 'package:salary_tracking_app/widgets/custom_toast.dart';
 import 'package:table_calendar/table_calendar.dart';
-
+import '../widgets/clock_widget.dart';
 import '../widgets/custom_toast copy.dart';
 
 class EmployeePage extends StatefulWidget {
@@ -152,6 +152,10 @@ class _EmployeePageState extends State<EmployeePage> {
                       ],
                     ),
                   ),
+                  Container(
+                      height: 200,
+                      width: 200,
+                      child: Clock(time: DateTime.now())),
                   Opacity(
                     opacity: _startTimeController.text.isEmpty ? 0.1 : 1,
                     child: Row(

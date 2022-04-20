@@ -1,14 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:salary_tracking_app/Extensions/integer_extensions.dart';
 import 'package:salary_tracking_app/consts/consants.dart';
 import 'package:salary_tracking_app/models/employeeTimeModel.dart';
-import 'package:salary_tracking_app/provider/employee_time.dart';
-import 'package:salary_tracking_app/services/firebase_api.dart';
 import 'package:salary_tracking_app/widgets/loadingWidget.dart';
-
 import '../consts/collections.dart';
 import '../models/users.dart';
 
@@ -117,48 +112,48 @@ class _HomePageState extends State<HomePage> {
                   EmployeeTimeModel employeeData = employeeTimeList[index];
                   return InkWell(
                     onDoubleTap: () {
-                      showDialog(context: context, builder: (context) {
-                        return AlertDialog(
-                          title: Text('Edit Employee Rate'),
-                          content: TextField(
-                            controller: TextEditingController(
-                                text: employeeData.rate.toString()),
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Employee Rate',
-                            ),
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Cancel'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            FlatButton(
-                              child: Text('Save'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                // setState(() {
-                                //   employeeData.rate =
-                                //       int.parse(
-                                //           (context as BuildContext).
-                                //               findRenderObject().
-                                //               debugSemantics.
-                                //               semanticsOwner.
-                                //               semantics.
-                                //               firstWhere((element) =>
-                                //                   element.label ==
-                                //                       'Employee Time')
-                                //                   .value);
-                                // });
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                      
-                      
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Edit Employee Rate'),
+                              content: TextField(
+                                controller: TextEditingController(
+                                    text: employeeData.rate.toString()),
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  labelText: 'Employee Rate',
+                                ),
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text('Save'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    // setState(() {
+                                    //   employeeData.rate =
+                                    //       int.parse(
+                                    //           (context as BuildContext).
+                                    //               findRenderObject().
+                                    //               debugSemantics.
+                                    //               semanticsOwner.
+                                    //               semantics.
+                                    //               firstWhere((element) =>
+                                    //                   element.label ==
+                                    //                       'Employee Time')
+                                    //                   .value);
+                                    // });
+                                  },
+                                ),
+                              ],
+                            );
+                          });
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.5,
@@ -185,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(employeeData.employeeName!),
                               ],
                             ),
-                            Row(
+                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
