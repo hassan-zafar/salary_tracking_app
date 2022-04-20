@@ -19,20 +19,21 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _passwordFocusNode = FocusNode();
-  final FocusNode _companyNameFocusNode = FocusNode();
+  final FocusNode _jobTitleFocusNode = FocusNode();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _phoneNumberFocusNode = FocusNode();
   bool _obscureText = true;
   String _emailAddress = '';
   String _password = '';
   String _fullName = '';
-  String _companyName = '';
+  String _jobTitle = '';
+  String _companyName = 'Katy';
   int? _phoneNumber;
   File? _pickedImage;
   String? url;
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  GlobalMethods _globalMethods = GlobalMethods();
+  final GlobalMethods _globalMethods = GlobalMethods();
   bool _isLoading = false;
   @override
   void dispose() {
@@ -83,9 +84,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'companyName': _companyName,
             'phoneNumber': _phoneNumber,
             'imageUrl': url,
-            'subscriptionEndTIme': DateTime.now().toIso8601String(),
             'joinedAt': formattedDate,
             'isAdmin': false,
+            'jobTitle': _jobTitle,
             'createdAt': Timestamp.now(),
           });
           Navigator.canPop(context) ? Navigator.pop(context) : null;
@@ -167,8 +168,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Stack(
                   children: [
                     Container(
-                      margin:
-                          const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 30, horizontal: 30),
                       child: CircleAvatar(
                         radius: 71,
                         backgroundColor: ColorsConsts.gradiendLEnd,
@@ -210,8 +211,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             child: Row(
                                               children: [
                                                 const Padding(
-                                                  padding:
-                                                      EdgeInsets.all(8.0),
+                                                  padding: EdgeInsets.all(8.0),
                                                   child: const Icon(
                                                     Icons.camera,
                                                     color: Colors.purpleAccent,
@@ -235,8 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             child: Row(
                                               children: [
                                                 const Padding(
-                                                  padding:
-                                                      EdgeInsets.all(8.0),
+                                                  padding: EdgeInsets.all(8.0),
                                                   child: const Icon(
                                                     Icons.image,
                                                     color: Colors.purpleAccent,
@@ -260,8 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             child: Row(
                                               children: [
                                                 const Padding(
-                                                  padding:
-                                                      EdgeInsets.all(8.0),
+                                                  padding: EdgeInsets.all(8.0),
                                                   child: const Icon(
                                                     Icons.remove_circle,
                                                     color: Colors.red,
@@ -316,33 +314,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                         ),
                       ),
-                    
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
-                          key: const ValueKey('company name'),
+                          key: const ValueKey('job title'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'company name cannot be null';
+                              return 'job title cannot be null';
                             }
                             return null;
                           },
                           textInputAction: TextInputAction.next,
                           onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_companyNameFocusNode),
+                              .requestFocus(_jobTitleFocusNode),
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               filled: true,
                               prefixIcon: const Icon(Icons.business),
-                              labelText: 'Company Name',
+                              labelText: 'Job Title',
                               fillColor: Theme.of(context).backgroundColor),
                           onSaved: (value) {
-                            _fullName = value!;
+                            _jobTitle = value!;
                           },
                         ),
                       ),
-                    
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
@@ -447,7 +443,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: CupertinoPicker(
                               itemExtent: 40,
                               magnification: 1.2,
-                              looping: true,
+                              looping: false,
                               offAxisFraction: 0,
                               useMagnifier: true,
                               squeeze: 2,
@@ -488,17 +484,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onPressed: _submitForm,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
+                                    children: const [
+                                      Text(
                                         'Sign up',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 17),
                                       ),
-                                      const SizedBox(
+                                      SizedBox(
                                         width: 5,
                                       ),
-                                      const Icon(
+                                      Icon(
                                         Icons.person,
                                         size: 18,
                                       )

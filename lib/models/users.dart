@@ -12,6 +12,7 @@ class AppUserModel {
   final String? androidNotificationToken;
   final String? subscriptionEndTIme;
   final String? companyName;
+  final String? jobTitle;
   final double? wage;
 
   // final Map? sectionsAppointed;
@@ -27,8 +28,8 @@ class AppUserModel {
       this.email,
       this.androidNotificationToken,
       this.wage,
-      this.companyName});
-//Katy,Laporte,Houston
+      this.companyName,
+      this.jobTitle});
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -43,6 +44,7 @@ class AppUserModel {
       'wage': wage,
       'email': email,
       'androidNotificationToken': androidNotificationToken,
+      'jobTitle': jobTitle
     };
   }
 
@@ -59,7 +61,8 @@ class AppUserModel {
         wage: map['wage'],
         companyName: map['companyName'],
         email: map['email'],
-        androidNotificationToken: map['androidNotificationToken']);
+        androidNotificationToken: map['androidNotificationToken'],
+        jobTitle: map['jobTitle']);
   }
 
   factory AppUserModel.fromDocument(doc) {
@@ -76,6 +79,7 @@ class AppUserModel {
       androidNotificationToken: doc.data()["androidNotificationToken"],
       companyName: doc.data()["companyName"],
       wage: doc.data()["wage"],
+      jobTitle: doc.data()["jobTitle"],
     );
   }
 
