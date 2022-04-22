@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salary_tracking_app/services/firebase_api.dart';
-import 'package:salary_tracking_app/widgets/custom_toast.dart';
+import 'package:salary_tracking_app/widgets/slide_countdown_clock.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../widgets/clock_widget.dart';
 import '../widgets/custom_toast copy.dart';
@@ -16,18 +16,16 @@ class _EmployeePageState extends State<EmployeePage> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
-  late TextEditingController _startTimeController;
-  late TextEditingController _endTimeController;
-  late TimeOfDay startTimeOfDay;
-  late TimeOfDay endTimeOfDay;
+  TimeOfDay startTimeOfDay = TimeOfDay.now();
+  TimeOfDay endTimeOfDay = TimeOfDay.now();
+  bool startTimeSelected = false;
+  bool endTimeSelected = false;
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    _startTimeController = TextEditingController();
-    _endTimeController = TextEditingController();
   }
 
   @override
@@ -68,8 +66,6 @@ class _EmployeePageState extends State<EmployeePage> {
                     difference);
                 setState(() {
                   _isLoading = false;
-                  _endTimeController.clear();
-                  _startTimeController.clear();
                 });
               } else {
                 CustomToast.errorToast(message: 'Please fill all the fields');
@@ -111,92 +107,66 @@ class _EmployeePageState extends State<EmployeePage> {
                       CalendarFormat.week: 'Week',
                     },
                   ),
-                  Opacity(
-                    opacity: _endTimeController.text.isEmpty ? 1 : 0.1,
-                    child: Row(
-                      children: [
-                        const Expanded(
-                            child: Text(
-                          'Start Logging',
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        )),
-                        Expanded(
-                          child: Card(
-                            margin: const EdgeInsets.all(8),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                enabled: _endTimeController.text.isEmpty,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter starting time';
-                                  }
-                                  return null;
-                                },
-                                controller: _startTimeController,
-                                onTap: () async {
-                                  var asd = await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.now());
-                                  setState(() {
-                                    _startTimeController.text =
-                                        asd!.format(context);
-                                    startTimeOfDay = asd;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                  GestureDetector(
+                    onTap: () {
+                      startTimeOfDay = TimeOfDay.now();
+                      setState(() {
+                        startTimeSelected = true;
+                      });
+                    },
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: startTimeSelected ? Colors.red : Colors.grey,
+                            borderRadius: BorderRadius.circular(16)),
+                        padding: const EdgeInsets.all(16),
+                        child: Text(startTimeSelected
+                            ? startTimeOfDay.format(context)
+                            : 'Start Logging Time')),
                   ),
                   Container(
                       height: 200,
                       width: 200,
                       child: Clock(time: DateTime.now())),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(10),
+                  //   child: SlideCountdownClock(
+                  //     duration: const Duration(seconds: 10),
+                  //     slideDirection: SlideDirection.Up,
+                  //     separator: "-",
+                  //     textStyle: const TextStyle(
+                  //       fontSize: 20,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.white,
+                  //     ),
+                  //     separatorTextStyle: const TextStyle(
+                  //       fontSize: 20,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.blue,
+                  //     ),
+                  //     padding: const EdgeInsets.all(10),
+                  //     decoration: const BoxDecoration(
+                  //         color: Colors.blue, shape: BoxShape.circle),
+                  //     onDone: () {
+                  //       // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Clock 1 finished')));
+                  //     },
+                  //   ),
+                  // ),
+
                   Opacity(
-                    opacity: _startTimeController.text.isEmpty ? 0.1 : 1,
-                    child: Row(
-                      children: [
-                        const Expanded(
-                            child: Text(
-                          'Log Ending Time:',
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        )),
-                        Expanded(
-                          child: Card(
-                            margin: const EdgeInsets.all(8),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: _endTimeController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter ending time';
-                                  }
-                                  return null;
-                                },
-                                enabled: _startTimeController.text.isNotEmpty,
-                                onTap: () async {
-                                  if (_startTimeController.text.isNotEmpty) {
-                                    var asd = await showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay.now());
-                                    setState(() {
-                                      _endTimeController.text =
-                                          asd!.format(context);
-                                      endTimeOfDay = asd;
-                                    });
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                    opacity: endTimeSelected ? 1 : 0.1,
+                    child: GestureDetector(
+                      onTap: () {
+                        endTimeOfDay = TimeOfDay.now();
+                        setState(() {
+                          endTimeSelected = true;
+                        });
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(16)),
+                          padding: const EdgeInsets.all(16),
+                          child: Text(endTimeSelected?endTimeOfDay.format(context):'End Logging Time')),
                     ),
                   )
                 ],

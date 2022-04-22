@@ -214,7 +214,7 @@ class _ClockPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_ClockPainter oldDelegate) {
-    return oldDelegate.time!.isBefore(this.time!) ?? false;
+    return oldDelegate.time!.isBefore(time!);
   }
 }
 

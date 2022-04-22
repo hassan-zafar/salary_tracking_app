@@ -59,7 +59,6 @@ dependencies:
   permission_handler:
   flutter_file_extention:
   image_gallery_saver:
-  slide_countdown_clock:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
