@@ -117,7 +117,7 @@ class _EmployeePageState extends State<EmployeePage> {
                       children: [
                         const Expanded(
                             child: Text(
-                          'Log Starting Time:',
+                          'Start Logging',
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w500),
                         )),

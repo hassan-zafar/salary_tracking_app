@@ -116,10 +116,10 @@ class _HomePageState extends State<HomePage> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text('Edit Employee Rate'),
+                              title: const Text('Edit Employee Hourly Rate'),
                               content: TextField(
                                 controller: TextEditingController(
-                                    text: employeeData.rate.toString()),
+                                    text: employeeData.wage.toString()),
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
                                   labelText: 'Employee Rate',
@@ -127,13 +127,13 @@ class _HomePageState extends State<HomePage> {
                               ),
                               actions: <Widget>[
                                 FlatButton(
-                                  child: Text('Cancel'),
+                                  child: const Text('Cancel'),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
                                 ),
                                 FlatButton(
-                                  child: Text('Save'),
+                                  child: const Text('Save'),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                     // setState(() {
@@ -167,46 +167,83 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
-                            Text('${employeeData.companyName!}',
-                                style: titleTextStyle(context: context)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Name:",
-                                  style: titleTextStyle(
-                                      context: context, fontSize: 16),
-                                ),
-                                Text(employeeData.employeeName!),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('${employeeData.companyName!}',
+                                  style: titleTextStyle(context: context)),
                             ),
-                           Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(Icons.timer),
-                                    Text(
-                                      'Total Time:',
-                                      style: titleTextStyle(
-                                          context: context, fontSize: 16),
-                                    ),
-                                    Text(employeeData.totalTime!
-                                        .formatSecondsToTimeWithFormat),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Icon(Icons.monetization_on_outlined),
-                                    Text(
-                                      '30 \$',
-                                      style: titleTextStyle(
-                                          context: context, fontSize: 16),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Name:",
+                                    style: titleTextStyle(
+                                        context: context, fontSize: 16),
+                                  ),
+                                  Text(employeeData.employeeName!),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Job Title:",
+                                    style: titleTextStyle(
+                                        context: context, fontSize: 16),
+                                  ),
+                                  Text(employeeData.jobTitle ?? '-'),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Hourly Rate:",
+                                    style: titleTextStyle(
+                                        context: context, fontSize: 16),
+                                  ),
+                                  Text(employeeData.wage!.toString()),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.timer),
+                                      Text(
+                                        'Total Time:',
+                                        style: titleTextStyle(
+                                            context: context, fontSize: 16),
+                                      ),
+                                      Text(employeeData.totalTime!
+                                          .formatSecondsToTimeWithFormat),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const Icon(Icons.monetization_on_outlined),
+                                      Text(
+                                        '30 \$',
+                                        style: titleTextStyle(
+                                            context: context, fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

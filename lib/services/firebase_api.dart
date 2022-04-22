@@ -43,6 +43,7 @@ class FirebaseApi {
         'companyName': currentUser!.companyName,
         'employeeName': '${currentUser!.name}',
         'totalTime': totalTime,
+        'wage': currentUser!.wage,
         'date': '${seletedDay.day}-${seletedDay.month}-${seletedDay.year}',
         'timeStamp': Timestamp.now(),
       }).then((value) => CustomToast.successToast(

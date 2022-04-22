@@ -20,8 +20,8 @@ class _UserNSearchState extends State<UserNSearch>
     with AutomaticKeepAliveClientMixin<UserNSearch> {
   Future<QuerySnapshot>? searchResultsFuture;
   TextEditingController searchController = TextEditingController();
-
-  String typeSelected = 'users';
+//  'Katy','Laporte','Houston',
+  String typeSelected = 'Katy';
   handleSearch(String query) {
     if (currentUser!.isAdmin!) {
       Future<QuerySnapshot> users =
@@ -117,17 +117,24 @@ class _UserNSearchState extends State<UserNSearch>
               }
               List<UserResult> userResults = [];
               List<UserResult> allAdmins = [];
+              List<UserResult> katyUsers = [];
+              List<UserResult> laporteUsers = [];
+              List<UserResult> houstonUsers = [];
 
               snapshot.data!.docs.forEach((doc) {
                 AppUserModel user = AppUserModel.fromDocument(doc);
 
                 //remove auth user from recommended list
+                userResults.add(UserResult(user));
                 if (user.isAdmin!) {
                   UserResult adminResult = UserResult(user);
                   allAdmins.add(adminResult);
-                } else {
-                  UserResult userResult = UserResult(user);
-                  userResults.add(userResult);
+                } else if (user.companyName == 'Katy') {
+                  katyUsers.add(UserResult(user));
+                } else if (user.companyName == 'Houston') {
+                  houstonUsers.add(UserResult(user));
+                } else if (user.companyName == 'Laporte') {
+                  laporteUsers.add(UserResult(user));
                 }
               });
               return GlassContainer(
@@ -205,6 +212,130 @@ class _UserNSearchState extends State<UserNSearch>
                                       ),
                                     ],
                                   ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              typeSelected = "Katy";
+                                            });
+                                          },
+                                          child: GlassContainer(
+                                            opacity: 0.7,
+                                            shadowStrength: 8,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Katy ${katyUsers.length}",
+                                                style:
+                                                    TextStyle(fontSize: 20.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              typeSelected = "Houston";
+                                            });
+                                          },
+                                          child: GlassContainer(
+                                            opacity: 0.7,
+                                            shadowStrength: 8,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Houston ${houstonUsers.length}",
+                                                style: const TextStyle(
+                                                    fontSize: 20.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              typeSelected = "Laporte";
+                                            });
+                                          },
+                                          child: GlassContainer(
+                                            opacity: 0.7,
+                                            shadowStrength: 8,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Laporte ${laporteUsers.length}",
+                                                style:
+                                                    TextStyle(fontSize: 20.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              typeSelected = "admin";
+                                            });
+                                          },
+                                          child: GlassContainer(
+                                            opacity: 0.7,
+                                            shadowStrength: 8,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "All Admins ${allAdmins.length}",
+                                                style:
+                                                    TextStyle(fontSize: 20.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
@@ -217,7 +348,22 @@ class _UserNSearchState extends State<UserNSearch>
                         : Text(""),
                     typeSelected == 'users'
                         ? Column(
-                            children: userResults,
+                            children: userResults.toList(),
+                          )
+                        : Text(''),
+                    typeSelected == 'Katy'
+                        ? Column(
+                            children: katyUsers.toList(),
+                          )
+                        : Text(''),
+                    typeSelected == 'Houston'
+                        ? Column(
+                            children: houstonUsers.toList(),
+                          )
+                        : Text(''),
+                    typeSelected == 'Laporte'
+                        ? Column(
+                            children: laporteUsers.toList(),
                           )
                         : Text(''),
                   ],
