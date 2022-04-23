@@ -2,15 +2,15 @@ import 'dart:convert';
 
 class EmployeeTimeModel {
   final String? uid;
-  final String? startTime;
-  final String? endTime;
+  final DateTime? startTime;
+  final DateTime? endTime;
   final String? timestamp;
-  final String? date;
+  final DateTime? date;
   final String? employeeName;
   final String? employeeId;
   final String? companyName;
   final String? jobTitle;
-  final int? wage;
+  final double? wage;
   final int? totalTime;
 
   EmployeeTimeModel({
