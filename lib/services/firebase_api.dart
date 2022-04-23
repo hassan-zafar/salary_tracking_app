@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/models/employeeTimeModel.dart';
 import 'package:salary_tracking_app/models/firebase_file.dart';
@@ -24,30 +25,141 @@ class FirebaseApi {
     }
   }
 
-
-
   submitEmployeeTime(
-      String startTime, String endTime, DateTime seletedDay,int totalTime) async
-      
-       {
+     {required DateTime startTime,required DateTime endTime,required int totalTime,required String uid}) async {
+    var asd = await getSingleEmployeeTime(uid);
+    if (asd == null) {
+      await addEmployeeTime(
+          employeeTimeModel: EmployeeTimeModel(
+              startTime: startTime,
+              endTime: endTime,
+              employeeId: currentUser!.id,
+              employeeName: currentUser!.name,
+              wage: currentUser!.wage,
+              companyName: currentUser!.companyName,
+              jobTitle: currentUser!.jobTitle,
+              totalTime: totalTime,
+              date: DateTime.now(),
+              uid: currentUser!.id,
+              timestamp: Timestamp.now().toString()));
+    } else {
+      int newTotalTime = asd.totalTime! + totalTime;
+      await updateEmployeeTime(
+          employeeTimeModel: EmployeeTimeModel(
+              startTime: startTime,
+              endTime: endTime,
+              employeeId: currentUser!.id,
+              employeeName: currentUser!.name,
+              wage: currentUser!.wage,
+              companyName: currentUser!.companyName,
+              jobTitle: currentUser!.jobTitle,
+              totalTime: newTotalTime,
+              date: DateTime.now(),
+              uid: currentUser!.id,
+              timestamp: Timestamp.now().toString()));
+    }
+  }
+
+  updateExployeeTime(
+      {DateTime? startTime,
+      DateTime? endTime,
+      String? uid,
+      EmployeeTimeModel? employeeTimeModel,
+      int? totalTime}) async {
+    totalEmployeeTimeRef.add(employeeTimeModel!.toMap());
+  }
+
+  static Future<void> addEmployeeTime(
+      {required EmployeeTimeModel employeeTimeModel}) async {
     try {
-      employeeTimeRef
+      await totalEmployeeTimeRef.add(employeeTimeModel.toMap());
+    } on FirebaseException catch (e) {
+      print(e.message);
+    }
+  }
+
+  static Future<void> updateEmployeeTime(
+      {required EmployeeTimeModel employeeTimeModel}) async {
+    try {
+      await totalEmployeeTimeRef
+          .doc(employeeTimeModel.uid)
+          .update(employeeTimeModel.toMap());
+    } on FirebaseException catch (e) {
+      print(e.message);
+    }
+  }
+
+  static Future<void> deleteEmployeeTime(
+      {required EmployeeTimeModel employeeTimeModel}) async {
+    try {
+      await totalEmployeeTimeRef.doc(employeeTimeModel.uid).delete();
+    } on FirebaseException catch (e) {
+      print(e.message);
+    }
+  }
+
+  static Future<List<EmployeeTimeModel>> getAllEmployeeTime() async {
+    try {
+      final snapshot = await totalEmployeeTimeRef.get();
+      return snapshot.docs
+          .map((doc) => EmployeeTimeModel.fromDocument(doc))
+          .toList();
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return [];
+    }
+  }
+
+  static Future<EmployeeTimeModel?> getSingleEmployeeTime(String uid) async {
+    try {
+      final snapshot = await totalEmployeeTimeRef.doc(uid).get();
+      return EmployeeTimeModel.fromDocument(snapshot);
+    } on FirebaseException catch (e) {
+      print(e.message);
+      return null;
+    }
+  }
+
+  submitEmployeeTimeX(String startTime, String endTime, DateTime seletedDay,
+      int totalTime) async {
+    try {
+      DocumentSnapshot asd = await employeeTimeRef
           .doc('${seletedDay.day}-${seletedDay.month}-${seletedDay.year}')
           .collection('employeeDayData')
           .doc(currentUser!.id)
-          .set({
-        'startTime': startTime,
-        'uid': currentUser!.id,
-        'endTime': endTime,
-        'employeeId': currentUser!.id,
-        'companyName': currentUser!.companyName,
-        'employeeName': '${currentUser!.name}',
-        'totalTime': totalTime,
-        'wage': currentUser!.wage,
-        'date': '${seletedDay.day}-${seletedDay.month}-${seletedDay.year}',
-        'timeStamp': Timestamp.now(),
-      }).then((value) => CustomToast.successToast(
-              message: 'Time Submitted Successfully', duration: 2));
+          .get();
+      print(asd.exists);
+      if (asd.exists) {
+        EmployeeTimeModel zxc = EmployeeTimeModel.fromDocument(asd);
+        var exactTotalTime = zxc.totalTime! + totalTime;
+        await employeeTimeRef
+            .doc('${seletedDay.day}-${seletedDay.month}-${seletedDay.year}')
+            .collection('employeeDayData')
+            .doc(currentUser!.id)
+            .update({
+          'startTime': startTime,
+          'endTime': endTime,
+          'totalTime': exactTotalTime,
+        });
+      } else {
+        await employeeTimeRef
+            .doc('${seletedDay.day}-${seletedDay.month}-${seletedDay.year}')
+            .collection('employeeDayData')
+            .doc(currentUser!.id)
+            .set({
+          'startTime': startTime,
+          'uid': currentUser!.id,
+          'endTime': endTime,
+          'employeeId': currentUser!.id,
+          'companyName': currentUser!.companyName,
+          'employeeName': '${currentUser!.name}',
+          'totalTime': totalTime,
+          'wage': currentUser!.wage,
+          'date': '${seletedDay.day}-${seletedDay.month}-${seletedDay.year}',
+          'timeStamp': Timestamp.now(),
+        }).then((value) => CustomToast.successToast(
+                message: 'Time Submitted Successfully', duration: 2));
+      }
     } on FirebaseException catch (e) {
       CustomToast.errorToast(message: e.message.toString());
     }

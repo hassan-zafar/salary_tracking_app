@@ -8,9 +8,9 @@ final chatListRef = FirebaseFirestore.instance.collection('chatLists');
 final calenderRef = FirebaseFirestore.instance.collection('calenderMeetings');
 final activityFeedRef = FirebaseFirestore.instance.collection('activityFeed');
 final employeeTimeRef = FirebaseFirestore.instance.collection('employeeTime');
+final totalEmployeeTimeRef = FirebaseFirestore.instance.collection('totalEmployeeTime');
 
 AppUserModel? currentUser;
-String ?uid;
 bool? isAdmin;
 bool? isNotificationSetGlobal;
 bool? isAutoPlayGlobal;

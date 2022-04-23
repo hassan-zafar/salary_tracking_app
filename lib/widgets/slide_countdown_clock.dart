@@ -382,7 +382,7 @@ class _DigitState extends State<Digit> with SingleTickerProviderStateMixin {
     return Container(
       padding: widget.padding,
       alignment: Alignment.center,
-      decoration: widget.decoration ?? const BoxDecoration(),
+      decoration: widget.decoration,
       child: AnimatedBuilder(
         animation: _controller!,
         builder: (context, w) {
