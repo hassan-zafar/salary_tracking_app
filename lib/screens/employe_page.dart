@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/services/firebase_api.dart';
 import 'package:salary_tracking_app/widgets/slide_countdown_clock.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../models/employeeTimeModel.dart';
 import '../widgets/clock_widget.dart';
 import '../widgets/custom_toast copy.dart';
 
@@ -60,10 +63,10 @@ class _EmployeePageState extends State<EmployeePage> {
                 double totalTime = (_timeDiff - _timeDiff.truncate()) * 60;
 
                 await FirebaseApi().submitEmployeeTime(
-                    startTimeOfDay.format(context),
-                    endTimeOfDay.format(context),
-                    _selectedDay!,
-                    difference);
+                    startTime: _startTime,
+                    endTime: _endTime,
+                    totalTime: difference,
+                    uid: currentUser!.id!);
                 setState(() {
                   _isLoading = false;
                 });
@@ -166,7 +169,9 @@ class _EmployeePageState extends State<EmployeePage> {
                               color: Colors.grey,
                               borderRadius: BorderRadius.circular(16)),
                           padding: const EdgeInsets.all(16),
-                          child: Text(endTimeSelected?endTimeOfDay.format(context):'End Logging Time')),
+                          child: Text(endTimeSelected
+                              ? endTimeOfDay.format(context)
+                              : 'End Logging Time')),
                     ),
                   )
                 ],
