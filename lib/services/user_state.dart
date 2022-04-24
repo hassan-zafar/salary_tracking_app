@@ -19,7 +19,7 @@ class UserState extends StatelessWidget {
           } else if (userSnapshot.connectionState == ConnectionState.active) {
             if (userSnapshot.hasData) {
               print('userSnapshot.hasData ${userSnapshot.hasData}');
-              uid = userSnapshot.data!.uid;
+             String uid = userSnapshot.data!.uid;
               DatabaseMethods()
                   .fetchUserInfoFromFirebase(uid: userSnapshot.data!.uid)
                   .then((value) {

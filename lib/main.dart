@@ -17,7 +17,7 @@ import 'package:salary_tracking_app/screens/auth/sign_up.dart';
 import 'package:salary_tracking_app/services/user_state.dart';
 import 'package:salary_tracking_app/widgets/bottom_bar.dart';
 import 'package:provider/provider.dart';
-
+import 'firebase_options.dart';
 import 'consts/theme_data.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -35,6 +35,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
       // options: const FirebaseOptions(
       //    apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
       //   authDomain: "wageme-29f75.firebaseapp.com",
