@@ -1,5 +1,7 @@
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:salary_tracking_app/Extensions/integer_extensions.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/services/firebase_api.dart';
 import 'package:salary_tracking_app/widgets/slide_countdown_clock.dart';
@@ -19,12 +21,14 @@ class _EmployeePageState extends State<EmployeePage> {
   CalendarFormat _format = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
-  TimeOfDay startTimeOfDay = TimeOfDay.now();
-  TimeOfDay endTimeOfDay = TimeOfDay.now();
+  DateTime startTimeOfDay = DateTime.now();
+  DateTime endTimeOfDay = DateTime.now();
   bool startTimeSelected = false;
   bool endTimeSelected = false;
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
+  int difference = 0;
+  double dailyWage = 0.0;
 
   @override
   void initState() {
@@ -52,7 +56,7 @@ class _EmployeePageState extends State<EmployeePage> {
                     startTimeOfDay.hour, startTimeOfDay.minute);
                 DateTime _endTime = DateTime(now.month, now.month, now.day,
                     endTimeOfDay.hour, endTimeOfDay.minute);
-                final difference = _endTime.difference(_startTime).inSeconds;
+                difference = _endTime.difference(_startTime).inSeconds;
                 print(difference);
                 double _doubleStartTime = startTimeOfDay.hour.toDouble() +
                     (startTimeOfDay.minute.toDouble() / 60);
@@ -79,7 +83,8 @@ class _EmployeePageState extends State<EmployeePage> {
             child: Form(
               key: _formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TableCalendar(
                     lastDay: DateTime.now(),
@@ -110,68 +115,109 @@ class _EmployeePageState extends State<EmployeePage> {
                       CalendarFormat.week: 'Week',
                     },
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      startTimeOfDay = TimeOfDay.now();
-                      setState(() {
-                        startTimeSelected = true;
-                      });
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: startTimeSelected ? Colors.red : Colors.grey,
-                            borderRadius: BorderRadius.circular(16)),
-                        padding: const EdgeInsets.all(16),
-                        child: Text(startTimeSelected
-                            ? startTimeOfDay.format(context)
-                            : 'Start Logging Time')),
-                  ),
-                  Container(
-                      height: 200,
-                      width: 200,
-                      child: Clock(time: DateTime.now())),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(10),
-                  //   child: SlideCountdownClock(
-                  //     duration: const Duration(seconds: 10),
-                  //     slideDirection: SlideDirection.Up,
-                  //     separator: "-",
-                  //     textStyle: const TextStyle(
-                  //       fontSize: 20,
-                  //       fontWeight: FontWeight.bold,
-                  //       color: Colors.white,
-                  //     ),
-                  //     separatorTextStyle: const TextStyle(
-                  //       fontSize: 20,
-                  //       fontWeight: FontWeight.bold,
-                  //       color: Colors.blue,
-                  //     ),
-                  //     padding: const EdgeInsets.all(10),
-                  //     decoration: const BoxDecoration(
-                  //         color: Colors.blue, shape: BoxShape.circle),
-                  //     onDone: () {
-                  //       // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Clock 1 finished')));
-                  //     },
-                  //   ),
-                  // ),
+                  BlurryContainer(
+                    height: 350,
+                    width: 300,
+                    blur: 8,
+                    bgColor: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                            height: 200,
+                            width: 200,
+                            child: Clock(time: DateTime.now())),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(10),
+                        //   child: SlideCountdownClock(
+                        //     duration: const Duration(seconds: 10),
+                        //     slideDirection: SlideDirection.Up,
+                        //     separator: "-",
+                        //     textStyle: const TextStyle(
+                        //       fontSize: 20,
+                        //       fontWeight: FontWeight.bold,
+                        //       color: Colors.white,
+                        //     ),
+                        //     separatorTextStyle: const TextStyle(
+                        //       fontSize: 20,
+                        //       fontWeight: FontWeight.bold,
+                        //       color: Colors.blue,
+                        //     ),
+                        //     padding: const EdgeInsets.all(10),
+                        //     decoration: const BoxDecoration(
+                        //         color: Colors.blue, shape: BoxShape.circle),
+                        //     onDone: () {
+                        //       // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Clock 1 finished')));
+                        //     },
+                        //   ),
+                        // ),
+                        GestureDetector(
+                          onTap: () {
+                            startTimeOfDay = DateTime.now();
+                            setState(() {
+                              startTimeSelected = true;
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: startTimeSelected
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  borderRadius: BorderRadius.circular(16)),
+                              padding: const EdgeInsets.all(16),
+                              child: Text(startTimeSelected
+                                  ? 'Your Log Time: ${TimeOfDay.fromDateTime(startTimeOfDay).format(context)}'
+                                  : 'Start Logging Time')),
+                        ),
 
-                  Opacity(
-                    opacity: endTimeSelected ? 1 : 0.1,
-                    child: GestureDetector(
-                      onTap: () {
-                        endTimeOfDay = TimeOfDay.now();
-                        setState(() {
-                          endTimeSelected = true;
-                        });
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(16)),
-                          padding: const EdgeInsets.all(16),
-                          child: Text(endTimeSelected
-                              ? endTimeOfDay.format(context)
-                              : 'End Logging Time')),
+                        Opacity(
+                          opacity: endTimeSelected ? 1 : 0.1,
+                          child: GestureDetector(
+                            onTap: () {
+                              endTimeOfDay = DateTime.now();
+                              setState(() {
+                                endTimeSelected = true;
+                                difference = endTimeOfDay
+                                    .difference(startTimeOfDay)
+                                    .inSeconds;
+                                dailyWage =
+                                    (currentUser!.wage! / 3600) * difference;
+                              });
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(16)),
+                                padding: const EdgeInsets.all(16),
+                                child: Text(endTimeSelected
+                                    ? 'Your End Time: ${TimeOfDay.fromDateTime(endTimeOfDay).format(context)}'
+                                    : 'End Logging Time')),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),SizedBox(height: 20,),
+                  BlurryContainer(
+                    height: 150,
+                    width: 300,
+                    bgColor: Colors.white,
+                    child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(16)),
+                            padding: const EdgeInsets.all(16),
+                            child: Text(
+                                'Total Time: ${difference.formatSecondsToTimeWithHrMinFormat}')),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(16)),
+                            padding: const EdgeInsets.all(16),
+                            child: Text(
+                                'Total Wage: ${dailyWage.toStringAsFixed(2)}')),
+                      ],
                     ),
                   )
                 ],

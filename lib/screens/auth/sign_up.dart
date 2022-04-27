@@ -137,14 +137,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Stack(
         children: [
           Container(
+            decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.orange,
+              Colors.yellow.shade200,
+              Colors.orange.shade900,
+            ],
+          ),
+        ),
             height: MediaQuery.of(context).size.height * 0.95,
             child: RotatedBox(
               quarterTurns: 2,
               child: WaveWidget(
                 config: CustomConfig(
                   gradients: [
-                    [ColorsConsts.gradiendFStart, ColorsConsts.gradiendLStart],
-                    [ColorsConsts.gradiendFEnd, ColorsConsts.gradiendLEnd],
+                    [ColorsConsts.gradiendFStart, ColorsConsts.gradiendFEnd],
+                    [ColorsConsts.gradiendLStart, ColorsConsts.gradiendLEnd],
                   ],
                   durations: [19440, 10800],
                   heightPercentages: [0.20, 0.25],

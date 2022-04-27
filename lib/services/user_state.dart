@@ -5,7 +5,14 @@ import 'package:salary_tracking_app/database/database.dart';
 import 'package:salary_tracking_app/screens/auth/landing_page.dart';
 import 'package:salary_tracking_app/widgets/bottom_bar.dart';
 
-class UserState extends StatelessWidget {
+import '../main_screen.dart';
+
+class UserState extends StatefulWidget {
+  @override
+  State<UserState> createState() => _UserStateState();
+}
+
+class _UserStateState extends State<UserState> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -19,14 +26,18 @@ class UserState extends StatelessWidget {
           } else if (userSnapshot.connectionState == ConnectionState.active) {
             if (userSnapshot.hasData) {
               print('userSnapshot.hasData ${userSnapshot.hasData}');
-             String uid = userSnapshot.data!.uid;
+              String uid = userSnapshot.data!.uid;
               DatabaseMethods()
                   .fetchUserInfoFromFirebase(uid: userSnapshot.data!.uid)
                   .then((value) {
+                      
+                currentUser = value;
                 print('The user is already logged in');
+                return
+                    //  BottomBarScreen();
+                    const MainScreens();
               });
-              return BottomBarScreen();
-              // MainScreens();
+              return MainScreens();
             } else {
               print('The user didn\'t login yet');
               return
@@ -34,11 +45,11 @@ class UserState extends StatelessWidget {
                   LandingPage();
             }
           } else if (userSnapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Error occured'),
             );
           } else {
-            return Center(
+            return const Center(
               child: Text('Error occured'),
             );
           }
