@@ -91,35 +91,37 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                 selectedItemColor: const Color(0xff805130),
                 currentIndex: _selectedPageIndex,
                 // selectedLabelStyle: TextStyle(fontSize: 16),
-                items: currentUser!.isAdmin!
-                    ? [
-                        const BottomNavigationBarItem(
-                            icon: Icon(
-                              Icons.home,
-                            ),
-                            label: 'Home Page'),
-                        const BottomNavigationBarItem(
-                            icon: Icon(
-                              Icons.home,
-                            ),
-                            label: 'Log Page'),
-                        const BottomNavigationBarItem(
-                            icon: Icon(
-                              Icons.people,
-                            ),
-                            label: 'All Users'),
-                        BottomNavigationBarItem(
-                            icon: Icon(
-                              MyAppIcons.user,
-                            ),
-                            label: 'My Profile'),
-                        const BottomNavigationBarItem(
-                            icon: Icon(
-                              Icons.chat_bubble,
-                            ),
-                            label: 'Admin Chats'),
-                      ]
-                    : [
+                items: 
+                // currentUser!.isAdmin!
+                //     ? [
+                //         const BottomNavigationBarItem(
+                //             icon: Icon(
+                //               Icons.home,
+                //             ),
+                //             label: 'Home Page'),
+                //         const BottomNavigationBarItem(
+                //             icon: Icon(
+                //               Icons.home,
+                //             ),
+                //             label: 'Log Page'),
+                //         const BottomNavigationBarItem(
+                //             icon: Icon(
+                //               Icons.people,
+                //             ),
+                //             label: 'All Users'),
+                //         BottomNavigationBarItem(
+                //             icon: Icon(
+                //               MyAppIcons.user,
+                //             ),
+                //             label: 'My Profile'),
+                //         const BottomNavigationBarItem(
+                //             icon: Icon(
+                //               Icons.chat_bubble,
+                //             ),
+                //             label: 'Admin Chats'),
+                //       ]
+                //     :
+                     [
                         const BottomNavigationBarItem(
                             icon: Icon(
                               Icons.home,
