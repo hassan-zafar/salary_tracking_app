@@ -26,7 +26,10 @@ class FirebaseApi {
   }
 
   submitEmployeeTime(
-     {required DateTime startTime,required DateTime endTime,required int totalTime,required String uid}) async {
+      {required DateTime startTime,
+      required DateTime endTime,
+      required int totalTime,
+      required String uid}) async {
     var asd = await getSingleEmployeeTime(uid);
     if (asd == null) {
       await addEmployeeTime(
@@ -66,13 +69,15 @@ class FirebaseApi {
       String? uid,
       EmployeeTimeModel? employeeTimeModel,
       int? totalTime}) async {
-    totalEmployeeTimeRef.add(employeeTimeModel!.toMap());
+    totalEmployeeTimeRef.doc(currentUser!.id).set(employeeTimeModel!.toMap());
   }
 
   static Future<void> addEmployeeTime(
       {required EmployeeTimeModel employeeTimeModel}) async {
     try {
-      await totalEmployeeTimeRef.add(employeeTimeModel.toMap());
+      await totalEmployeeTimeRef
+          .doc(currentUser!.id)
+          .set(employeeTimeModel.toMap());
     } on FirebaseException catch (e) {
       print(e.message);
     }
@@ -110,10 +115,10 @@ class FirebaseApi {
     }
   }
 
-  static Future<EmployeeTimeModel?> getSingleEmployeeTime(String uid) async {
+  static getSingleEmployeeTime(String uid) async {
     try {
       final snapshot = await totalEmployeeTimeRef.doc(uid).get();
-      return EmployeeTimeModel.fromDocument(snapshot);
+      return snapshot;
     } on FirebaseException catch (e) {
       print(e.message);
       return null;
