@@ -46,7 +46,9 @@ class FirebaseApi {
               uid: currentUser!.id,
               timestamp: Timestamp.now().toString()));
     } else {
-      int newTotalTime = asd.totalTime! + totalTime;
+      print(asd);
+      var zxc = EmployeeTimeModel.fromDocument(asd);
+      int newTotalTime = zxc.totalTime! + totalTime;
       await updateEmployeeTime(
           employeeTimeModel: EmployeeTimeModel(
               startTime: startTime,

@@ -8,9 +8,7 @@ import 'package:salary_tracking_app/provider/auto_play_provider.dart';
 import 'package:salary_tracking_app/provider/background_play_provider.dart';
 import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
 import 'package:salary_tracking_app/provider/employee_time.dart';
-import 'package:salary_tracking_app/provider/favs_provider.dart';
 import 'package:salary_tracking_app/provider/notification_preferences.dart';
-import 'package:salary_tracking_app/provider/products.dart';
 import 'package:salary_tracking_app/screens/auth/forget_password.dart';
 import 'package:salary_tracking_app/screens/auth/login.dart';
 import 'package:salary_tracking_app/screens/auth/sign_up.dart';
@@ -134,7 +132,7 @@ class _MyAppState extends State<MyApp> {
                       Styles.themeData(themeChangeProvider.darkTheme, context),
                   home: UserState(),
                   routes: {
-                    MainScreens.routeName: (ctx) => MainScreens(),
+                    MainScreens.routeName: (ctx) => const MainScreens(),
                     LoginScreen.routeName: (ctx) => LoginScreen(),
                     SignUpScreen.routeName: (ctx) => SignUpScreen(),
                     BottomBarScreen.routeName: (ctx) => BottomBarScreen(),

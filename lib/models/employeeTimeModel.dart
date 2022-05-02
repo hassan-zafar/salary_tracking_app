@@ -40,6 +40,7 @@ class EmployeeTimeModel {
       'totalTime': totalTime,
       'wage': wage,
       'jobTitle': jobTitle,
+      
     };
   }
 
@@ -72,6 +73,7 @@ class EmployeeTimeModel {
       totalTime: doc.data()["totalTime"],
       wage: doc.data()["wage"],
       jobTitle: doc.data()["jobTitle"],
+
     );
   }
 
