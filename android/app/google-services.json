@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "165461244282-o1or5se0ivj8d8pia9e4pc8n108nvvdt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hassan.salary_tracking_app",
+            "certificate_hash": "a0c20f92a976ccc4c8cace73cc3f6cb362d8bcd4"
+          }
+        },
+        {
           "client_id": "165461244282-q6n840gepgqm58bcvvvflfnopd9gkoeg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -34,6 +42,13 @@
             {
               "client_id": "165461244282-kpq9uddvrftbmlq5s1jj2jbhfvj1g20j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "165461244282-6iu1m9dp6hg5efsm5662sht2gn6i5ngv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.salaryTrackingApp"
+              }
             }
           ]
         }

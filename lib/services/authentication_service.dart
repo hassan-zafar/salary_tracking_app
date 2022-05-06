@@ -77,8 +77,8 @@ class AuthenticationService {
           'email',
           'https://www.googleapis.com/auth/contacts.readonly',
         ],
-        clientId:
-            '705884143448-evgaqsm4qmottc3o9mn2na1hqa0bk92s.apps.googleusercontent.com',
+        // clientId:
+        //     '705884143448-evgaqsm4qmottc3o9mn2na1hqa0bk92s.apps.googleusercontent.com',
         signInOption: SignInOption.standard);
 
     final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
@@ -89,8 +89,12 @@ class AuthenticationService {
 
       final GoogleSignInAuthentication googleAuth =
           await googleAccount.authentication;
+      print(googleAuth.accessToken);
+      if (googleAuth.accessToken != null 
+      // && googleAuth.idToken != null
+      ) {
+        print('now here');
 
-      if (googleAuth.accessToken != null && googleAuth.idToken != null) {
         try {
           String date = DateTime.now().toString();
           DateTime dateparse = DateTime.parse(date);

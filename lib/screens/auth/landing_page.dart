@@ -8,6 +8,7 @@ import 'package:salary_tracking_app/main_screen.dart';
 import 'package:salary_tracking_app/screens/auth/sign_up.dart';
 import 'package:salary_tracking_app/services/authentication_service.dart';
 import 'package:salary_tracking_app/services/global_method.dart';
+import 'package:salary_tracking_app/widgets/custom_toast%20copy.dart';
 import 'login.dart';
 
 class LandingPage extends StatefulWidget {
@@ -295,13 +296,16 @@ class _LandingPageState extends State<LandingPage>
                       onPressed: () async {
                         final bool? _login =
                             await AuthenticationService().signinWithGoogle();
+                        print(_login);
                         if (_login!) {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                             builder: (context) => const MainScreens(),
                           ));
                         } else {
-                          Navigator.of(context).pop();
+                          CustomToast.errorToast(
+                              message: 'server not available');
+                          // Navigator.of(context).pop();
                         }
                       },
                       shape: const StadiumBorder(),
