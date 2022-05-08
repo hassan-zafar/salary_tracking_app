@@ -85,7 +85,6 @@ class AuthenticationService {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     if (googleAccount != null) {
-      print('here');
 
       final GoogleSignInAuthentication googleAuth =
           await googleAccount.authentication;
