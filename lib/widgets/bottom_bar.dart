@@ -32,7 +32,6 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
       UserNSearch(),
       ChatLists(),
     ];
-
     super.initState();
     _scrollController = ScrollController();
     _scrollController!.addListener(() {
@@ -54,17 +53,18 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    return Container( decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              ColorsConsts.gradiendFStart,
-              Colors.orange,
-              ColorsConsts.gradiendFEnd,
-            ],
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            ColorsConsts.gradiendFStart,
+            Colors.orange,
+            ColorsConsts.gradiendFEnd,
+          ],
         ),
+      ),
       child: Scaffold(
         body: pages[_selectedPageIndex], //_pages[_selectedPageIndex]['page'],
         bottomNavigationBar: BottomAppBar(
@@ -91,8 +91,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                 selectedItemColor: const Color(0xff805130),
                 currentIndex: _selectedPageIndex,
                 // selectedLabelStyle: TextStyle(fontSize: 16),
-                items: 
-                currentUser!=null&& currentUser!.isAdmin!
+                items: currentUser != null && currentUser!.isAdmin!
                     ? [
                         const BottomNavigationBarItem(
                             icon: Icon(
@@ -120,8 +119,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                             ),
                             label: 'Admin Chats'),
                       ]
-                    :
-                     [
+                    : [
                         const BottomNavigationBarItem(
                             icon: Icon(
                               Icons.home,

@@ -65,7 +65,6 @@ class _EmployeePageState extends State<EmployeePage> {
                 double _timeDiff = _doubleEndTime - _doubleStartTime;
                 int _hr = _timeDiff.truncate();
                 double totalTime = (_timeDiff - _timeDiff.truncate()) * 60;
-
                 await FirebaseApi().submitEmployeeTime(
                     startTime: _startTime,
                     endTime: _endTime,

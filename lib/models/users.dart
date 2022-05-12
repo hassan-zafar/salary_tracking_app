@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 class AppUserModel {
   final String? id;
   final String? name;

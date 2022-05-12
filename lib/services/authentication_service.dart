@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/database/database.dart';
 import 'package:salary_tracking_app/models/users.dart';
-import 'package:salary_tracking_app/screens/auth/landing_page.dart';
 import 'package:salary_tracking_app/widgets/custom_toast%20copy.dart';
 import 'package:salary_tracking_app/widgets/custom_toast.dart';
 
