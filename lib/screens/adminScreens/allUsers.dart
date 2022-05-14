@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
@@ -406,28 +407,59 @@ class UserResult extends StatelessWidget {
           GestureDetector(
             onTap: () => makeAdmin(context),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GlassContainer(
-                opacity: 0.6,
-                shadowStrength: 8,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    child: Icon(Icons.person),
+                padding: const EdgeInsets.all(8.0),
+                child: GlassContainer(
+                  opacity: 0.6,
+                  shadowStrength: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                          CircleAvatar(
+                            backgroundImage:
+                                CachedNetworkImageProvider(user.imageUrl!),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              user.name!,
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ),
+                         
+                        ]),
+                         Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              user.companyName!,
+                              style: const TextStyle(fontWeight: FontWeight.bold,
+                                fontSize: 20.0),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                  title: Text(
-                    user.name.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    user.name.toString(),
-                  ),
-                  trailing: Text(user.isAdmin != null && user.isAdmin == true
-                      ? "Admin"
-                      : "User"),
+                )
+                // ListTile(
+                //   leading: CircleAvatar(
+                //     backgroundColor: Colors.grey,
+                //     child: Icon(Icons.person),
+                //   ),
+                //   title: Text(
+                //     user.name.toString(),
+                //     style: TextStyle(fontWeight: FontWeight.bold),
+                //   ),
+                //   subtitle: Text(
+                //     user.name.toString(),
+                //   ),
+                //   trailing: Text(user.isAdmin != null && user.isAdmin == true
+                //       ? "Admin"
+                //       : "User"),
+                // ),
+
                 ),
-              ),
-            ),
           ),
         ],
       ),

@@ -26,7 +26,7 @@ class _UserStateState extends State<UserState> {
           } else if (userSnapshot.connectionState == ConnectionState.active) {
             if (userSnapshot.hasData) {
               print('userSnapshot.hasData ${userSnapshot.hasData}');
-              String uid = userSnapshot.data!.uid;
+               uid = userSnapshot.data!.uid;
               DatabaseMethods()
                   .fetchUserInfoFromFirebase(uid: userSnapshot.data!.uid)
                   .then((value) {
@@ -37,7 +37,7 @@ class _UserStateState extends State<UserState> {
                     //  BottomBarScreen();
                     const MainScreens();
               });
-              return MainScreens();
+              return const MainScreens();
             } else {
               print('The user didn\'t login yet');
               return

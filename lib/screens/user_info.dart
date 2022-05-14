@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/consts/consants.dart';
+import 'package:salary_tracking_app/database/database.dart';
 import 'package:salary_tracking_app/provider/auto_play_provider.dart';
 import 'package:salary_tracking_app/provider/background_play_provider.dart';
 import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
@@ -31,7 +32,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   // String? _joinedAt;
   // String? _userImageUrl;
   // int? _phoneNumber;
-  bool isLoading = false;
+  bool _isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -39,9 +40,23 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     _scrollController!.addListener(() {
       setState(() {});
     });
+
     // getData();
   }
+    // checkCurrentUser(){
+    //   if(currentUser==null){
+    //     setState(() {
+    //    _isLoading = false;
+    //     });
+    //   }
+    //       User user = DatabaseMethods().fetchUserInfoFromFirebase(uid: uid);
 
+    //   else{
+    //     setState(() {
+    //       _isLoading = true;
+    //     });
+    //   }
+    // }
   // void getData() async {
   //   setState(() {
   //     isLoading = true;
@@ -80,15 +95,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-    final autoPlayChange = Provider.of<AutoPlayProvider>(context);
-    final notificationChange = Provider.of<NotificationSetProvider>(context);
-    final backgroundPlayChanges = Provider.of<BackgroundPlayProvider>(context);
 
     return SafeArea(
       child: Scaffold(
-        body: isLoading
-            ? LoadingIndicator()
+        body: _isLoading ||currentUser == null
+            ? const Center(child: Text('Is Loading'))
             : Stack(
                 children: [
                   CustomScrollView(
@@ -227,32 +238,32 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                 color: Colors.yellow,
                               ),
                             ),
-                       ListTileSwitch(
-                              value: notificationChange.notificationSet,
-                              leading: const Icon(Icons.notifications),
-                              onChanged: (value) {
-                                setState(() {
-                                  notificationChange.notificationSet = value;
-                                });
-                              },
-                              visualDensity: VisualDensity.comfortable,
-                              switchType: SwitchType.cupertino,
-                              switchActiveColor: Colors.indigo,
-                              title: const Text('Allow Notifications'),
-                            ),
-                            ListTileSwitch(
-                              value: themeChange.darkTheme,
-                              leading: const Icon(FontAwesomeIcons.moon),
-                              onChanged: (value) {
-                                setState(() {
-                                  themeChange.darkTheme = value;
-                                });
-                              },
-                              visualDensity: VisualDensity.comfortable,
-                              switchType: SwitchType.cupertino,
-                              switchActiveColor: Colors.indigo,
-                              title: const Text('Dark theme'),
-                            ),
+                      //  ListTileSwitch(
+                      //         value: notificationChange.notificationSet,
+                      //         leading: const Icon(Icons.notifications),
+                      //         onChanged: (value) {
+                      //           setState(() {
+                      //             notificationChange.notificationSet = value;
+                      //           });
+                      //         },
+                      //         visualDensity: VisualDensity.comfortable,
+                      //         switchType: SwitchType.cupertino,
+                      //         switchActiveColor: Colors.indigo,
+                      //         title: const Text('Allow Notifications'),
+                      //       ),
+                            // ListTileSwitch(
+                            //   value: themeChange.darkTheme,
+                            //   leading: const Icon(FontAwesomeIcons.moon),
+                            //   onChanged: (value) {
+                            //     setState(() {
+                            //       themeChange.darkTheme = value;
+                            //     });
+                            //   },
+                            //   visualDensity: VisualDensity.comfortable,
+                            //   switchType: SwitchType.cupertino,
+                            //   switchActiveColor: Colors.indigo,
+                            //   title: const Text('Dark theme'),
+                            // ),
                             userTitle(title: "Account"),
                             currentUser!.isAdmin!
                                 ? Container()
