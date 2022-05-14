@@ -21,10 +21,8 @@ class UserLocalData {
   final _isAdmin = 'ISADMIN';
   final _notificationSet = 'NOTIFICATION';
   final _isAutoPlay = 'AUTOPLAY';
-
   final _token = 'TOKEN';
-  final _branches = 'BRANCHES';
-  final _classes = 'CLASSES';
+  final _events = 'EVENTS';
 
   //
   // Setters
@@ -49,8 +47,8 @@ class UserLocalData {
   Future setToken(String token) async =>
       getStorageProference.write(_token, token);
 
-  Future setClasses(String classes) async =>
-      getStorageProference.write(_classes, classes);
+  Future setEvents(String events) async =>
+      getStorageProference.write(_events, events);
 
   Future setIsAdmin(bool? isAdmin) async =>
       getStorageProference.write(_isAdmin, isAdmin);
@@ -73,9 +71,7 @@ class UserLocalData {
 
   bool? getIsAdmin() => getStorageProference.read(_isAdmin);
   String getUserData() => getStorageProference.read(_userModelString) ?? '';
-  String getBranches() => getStorageProference.read(_branches) ?? "";
-  String getClasses() => getStorageProference.read(_classes) ?? "";
-
+  String getEvents() => getStorageProference.read(_events) ?? "";
   String getUserUIDGet() => getStorageProference.read(_uidKey) ?? '';
   bool? isLoggedIn() => getStorageProference.read(_uidKey);
   String getUserEmail() => getStorageProference.read(_emailKey) ?? '';
