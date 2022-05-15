@@ -12,6 +12,7 @@ import 'package:salary_tracking_app/provider/notification_preferences.dart';
 import 'package:salary_tracking_app/screens/auth/forget_password.dart';
 import 'package:salary_tracking_app/screens/auth/login.dart';
 import 'package:salary_tracking_app/screens/auth/sign_up.dart';
+import 'package:salary_tracking_app/services/timer_service.dart';
 import 'package:salary_tracking_app/services/user_state.dart';
 import 'package:salary_tracking_app/widgets/bottom_bar.dart';
 import 'package:provider/provider.dart';
@@ -34,16 +35,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-      // options: const FirebaseOptions(
-      //    apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
-      //   authDomain: "wageme-29f75.firebaseapp.com",
-      //   projectId: "wageme-29f75",
-      //   storageBucket: "wageme-29f75.appspot.com",
-      //   messagingSenderId: "165461244282",
-      //   appId: "1:165461244282:web:2b6de2f5801e842af5fec3",
-      //   measurementId: "G-LGZP9WMLVH"
-      // ),
-      );
+    // options: const FirebaseOptions(
+    //    apiKey: "AIzaSyC9mvlxZ1gXJ0IGMmVqSWG1zLnkbiiDMlw",
+    //   authDomain: "wageme-29f75.firebaseapp.com",
+    //   projectId: "wageme-29f75",
+    //   storageBucket: "wageme-29f75.appspot.com",
+    //   messagingSenderId: "165461244282",
+    //   appId: "1:165461244282:web:2b6de2f5801e842af5fec3",
+    //   measurementId: "G-LGZP9WMLVH"
+    // ),
+  );
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // await flutterLocalNotificationsPlugin
@@ -111,6 +112,7 @@ class _MyAppState extends State<MyApp> {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (_) => EmployeeTimeProvider()),
+              ChangeNotifierProvider(create: (_) => TimerService()),
               ChangeNotifierProvider(create: (_) {
                 return themeChangeProvider;
               }),
@@ -124,21 +126,15 @@ class _MyAppState extends State<MyApp> {
                 return backgroundPlayProvider;
               }),
             ],
-            child: Consumer<DarkThemeProvider>(
-              builder: (context, themeChangeProvider, ch) {
-                return MaterialApp(
-                  title: 'Wage Me',
-                  theme:
-                      Styles.themeData(themeChangeProvider.darkTheme, context),
-                  home: UserState(),
-                  routes: {
-                    MainScreens.routeName: (ctx) => const MainScreens(),
-                    LoginScreen.routeName: (ctx) => LoginScreen(),
-                    SignUpScreen.routeName: (ctx) => SignUpScreen(),
-                    BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
-                    ForgetPassword.routeName: (ctx) => ForgetPassword(),
-                  },
-                );
+            child: MaterialApp(
+              title: 'Wage Me',
+              home: UserState(),
+              routes: {
+                MainScreens.routeName: (ctx) => const MainScreens(),
+                LoginScreen.routeName: (ctx) => LoginScreen(),
+                SignUpScreen.routeName: (ctx) => SignUpScreen(),
+                BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
+                ForgetPassword.routeName: (ctx) => ForgetPassword(),
               },
             ),
           );
