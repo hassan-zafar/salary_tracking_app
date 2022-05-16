@@ -116,25 +116,24 @@ class _MyAppState extends State<MyApp> {
               ChangeNotifierProvider(create: (_) {
                 return themeChangeProvider;
               }),
-              ChangeNotifierProvider(create: (_) {
-                return autoPlayChangeProvider;
-              }),
-              ChangeNotifierProvider(create: (_) {
-                return notificationSetProvider;
-              }),
-              ChangeNotifierProvider(create: (_) {
-                return backgroundPlayProvider;
-              }),
+       
+            
             ],
-            child: MaterialApp(
-              title: 'Wage Me',
-              home: UserState(),
-              routes: {
-                MainScreens.routeName: (ctx) => const MainScreens(),
-                LoginScreen.routeName: (ctx) => LoginScreen(),
-                SignUpScreen.routeName: (ctx) => SignUpScreen(),
-                BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
-                ForgetPassword.routeName: (ctx) => ForgetPassword(),
+            child: Consumer<DarkThemeProvider>(
+              builder: (context, themeChangeProvider, ch) {
+                return MaterialApp(
+                  title: 'Wage Me',
+                  theme:
+                      Styles.themeData(themeChangeProvider.darkTheme, context),
+                  home: UserState(),
+                  routes: {
+                    MainScreens.routeName: (ctx) => const MainScreens(),
+                    LoginScreen.routeName: (ctx) => LoginScreen(),
+                    SignUpScreen.routeName: (ctx) => SignUpScreen(),
+                    BottomBarScreen.routeName: (ctx) => BottomBarScreen(),
+                    ForgetPassword.routeName: (ctx) => ForgetPassword(),
+                  },
+                );
               },
             ),
           );

@@ -31,11 +31,11 @@ class EventItem extends StatelessWidget {
         padding: const EdgeInsets.only(right: 20),
         child: Icon(
           Icons.delete,
-          color: Colors.white,
+          // color: Colors.white,
         ),
       ),
       child: Container(
-        color: Colors.white,
+        // color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

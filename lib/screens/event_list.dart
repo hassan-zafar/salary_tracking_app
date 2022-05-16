@@ -9,13 +9,14 @@ class EventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TimerService timerService = context.watch<TimerService>();
+    // TimerService timerService = context.watch<TimerService>();
+    TimerService timerService = Provider.of<TimerService  >(context, listen:true);
 
     List<TimedEvent> timedEvents = timerService.timedEvents;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      color: Colors.white,
+      // color: Colors.white,
       child: ListView.separated(
         shrinkWrap: true,
         separatorBuilder: (context, index) => const Divider(

@@ -43,11 +43,11 @@ class TimerService with ChangeNotifier {
 
   void load() {
     String data = UserLocalData().getEvents();
-    if (data != null) {
-      
-    _timedEvents = jsonDecode(data)
-        .map<TimedEvent>((item) => TimedEvent.fromJson(item))
-        .toList();
+        print('data : $data');
+if (data != null && data.isNotEmpty) {
+      _timedEvents = jsonDecode(data)
+          .map<TimedEvent>((item) => TimedEvent.fromJson(item))
+          .toList();
     }
 
     if (timerActive) {
