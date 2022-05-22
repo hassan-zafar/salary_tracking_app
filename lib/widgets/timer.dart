@@ -22,10 +22,10 @@ class HeaderTimer extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         height: 80,
         width: double.infinity,
-        child: Row(
+        child: Row(mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PauseButton(),
-            SizedBox(width: 10),
+            const PauseButton(),
+            const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -82,7 +82,7 @@ class PauseButton extends StatelessWidget {
         } else {
           context.read<TimerService>().addNew();
         }
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
       },
       child: Container(
           height: 70,
@@ -91,7 +91,7 @@ class PauseButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           child: Icon(
-            isActive ? Icons.pause : Icons.play_arrow,
+            isActive ? Icons.stop : Icons.play_arrow,
             size: 40,
             color: Colors.white,
           )),

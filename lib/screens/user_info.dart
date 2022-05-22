@@ -6,6 +6,7 @@ import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/consts/consants.dart';
 import 'package:salary_tracking_app/database/database.dart';
+import 'package:salary_tracking_app/models/users.dart';
 import 'package:salary_tracking_app/provider/auto_play_provider.dart';
 import 'package:salary_tracking_app/provider/background_play_provider.dart';
 import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
@@ -43,20 +44,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
     // getData();
   }
-    // checkCurrentUser(){
-    //   if(currentUser==null){
-    //     setState(() {
-    //    _isLoading = false;
-    //     });
-    //   }
-    //       User user = DatabaseMethods().fetchUserInfoFromFirebase(uid: uid);
 
-    //   else{
-    //     setState(() {
-    //       _isLoading = true;
-    //     });
-    //   }
-    // }
+  checkCurrentUser() async {
+    if (currentUser == null) {
+      setState(() {
+        _isLoading = true;
+      });
+      // currentUser = await DatabaseMethods().fetchUserInfoFromFirebase(uid: uid);
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
   // void getData() async {
   //   setState(() {
   //     isLoading = true;
@@ -95,10 +95,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
-        body: _isLoading ||currentUser == null
+        body: _isLoading || currentUser == null
             ? const Center(child: Text('Is Loading'))
             : Stack(
                 children: [
@@ -226,7 +225,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          userTitle(title: 'User preferences'),
+                            userTitle(title: 'User preferences'),
                             ListTile(
                               onTap: () => Share.share(
                                   'check out this app https://play.google.com/store/apps/details?id=com.whatsapp',
@@ -238,19 +237,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                 color: Colors.yellow,
                               ),
                             ),
-                      //  ListTileSwitch(
-                      //         value: notificationChange.notificationSet,
-                      //         leading: const Icon(Icons.notifications),
-                      //         onChanged: (value) {
-                      //           setState(() {
-                      //             notificationChange.notificationSet = value;
-                      //           });
-                      //         },
-                      //         visualDensity: VisualDensity.comfortable,
-                      //         switchType: SwitchType.cupertino,
-                      //         switchActiveColor: Colors.indigo,
-                      //         title: const Text('Allow Notifications'),
-                      //       ),
+                            //  ListTileSwitch(
+                            //         value: notificationChange.notificationSet,
+                            //         leading: const Icon(Icons.notifications),
+                            //         onChanged: (value) {
+                            //           setState(() {
+                            //             notificationChange.notificationSet = value;
+                            //           });
+                            //         },
+                            //         visualDensity: VisualDensity.comfortable,
+                            //         switchType: SwitchType.cupertino,
+                            //         switchActiveColor: Colors.indigo,
+                            //         title: const Text('Allow Notifications'),
+                            //       ),
                             // ListTileSwitch(
                             //   value: themeChange.darkTheme,
                             //   leading: const Icon(FontAwesomeIcons.moon),
@@ -282,8 +281,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       splashColor: Colors.red,
                                       child: const ListTile(
                                         title: const Text('Report a Problem'),
-                                        trailing:
-                                            const Icon(Icons.chevron_right_rounded),
+                                        trailing: const Icon(
+                                            Icons.chevron_right_rounded),
                                         leading: const Icon(Icons.flag),
                                       ),
                                     ),
@@ -312,14 +311,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                                   ),
                                                 ),
                                                 const Padding(
-                                                  padding:
-                                                      EdgeInsets.all(8.0),
+                                                  padding: EdgeInsets.all(8.0),
                                                   child: const Text('Sign out'),
                                                 ),
                                               ],
                                             ),
-                                            content:
-                                                const Text('Do you wanna Sign out?'),
+                                            content: const Text(
+                                                'Do you wanna Sign out?'),
                                             actions: [
                                               TextButton(
                                                   onPressed: () async {
@@ -343,7 +341,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                         });
                                   },
                                   title: const Text('Logout'),
-                                  leading: const Icon(Icons.exit_to_app_rounded),
+                                  leading:
+                                      const Icon(Icons.exit_to_app_rounded),
                                 ),
                               ),
                             ),

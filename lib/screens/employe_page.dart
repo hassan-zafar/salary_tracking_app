@@ -112,92 +112,73 @@ class _EmployeePageState extends State<EmployeePage> {
                       CalendarFormat.week: 'Week',
                     },
                   ),
-                  BlurryContainer(
-                    height: 350,
-                    width: 300,
-                    blur: 8,
-                    bgColor: Colors.white,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            height: 200,
-                            width: 200,
-                            child: Clock(time: DateTime.now())),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(10),
-                        //   child: SlideCountdownClock(
-                        //     duration: const Duration(seconds: 10),
-                        //     slideDirection: SlideDirection.Up,
-                        //     separator: "-",
-                        //     textStyle: const TextStyle(
-                        //       fontSize: 20,
-                        //       fontWeight: FontWeight.bold,
-                        //       color: Colors.white,
-                        //     ),
-                        //     separatorTextStyle: const TextStyle(
-                        //       fontSize: 20,
-                        //       fontWeight: FontWeight.bold,
-                        //       color: Colors.blue,
-                        //     ),
-                        //     padding: const EdgeInsets.all(10),
-                        //     decoration: const BoxDecoration(
-                        //         color: Colors.blue, shape: BoxShape.circle),
-                        //     onDone: () {
-                        //       // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Clock 1 finished')));
-                        //     },
-                        //   ),
-                        // ),
-                        GestureDetector(
-                          onTap: () {
-                            startTimeOfDay = DateTime.now();
-                            setState(() {
-                              startTimeSelected = true;
-                            });
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: startTimeSelected
-                                      ? Colors.red
-                                      : Colors.grey,
-                                  borderRadius: BorderRadius.circular(16)),
-                              padding: const EdgeInsets.all(16),
-                              child: Text(startTimeSelected
-                                  ? 'Your Log Time: ${TimeOfDay.fromDateTime(startTimeOfDay).format(context)}'
-                                  : 'Start Logging Time')),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: BlurryContainer(
+                      height: 350,
+                      width: double.maxFinite,
+                      blur: 8,
+                      bgColor: Colors.white,
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              height: 200,
+                              width: 200,
+                              child: Clock(time: DateTime.now())),
+                      const HeaderTimer(),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     startTimeOfDay = DateTime.now();
+                          //     setState(() {
+                          //       startTimeSelected = true;
+                          //     });
+                          //   },
+                          //   child: Container(
+                          //       decoration: BoxDecoration(
+                          //           color: startTimeSelected
+                          //               ? Colors.red
+                          //               : Colors.grey,
+                          //           borderRadius: BorderRadius.circular(16)),
+                          //       padding: const EdgeInsets.all(16),
+                          //       child: Text(startTimeSelected
+                          //           ? 'Your Log Time: ${TimeOfDay.fromDateTime(startTimeOfDay).format(context)}'
+                          //           : 'Start Logging Time')),
+                          // ),
 
-                        Opacity(
-                          opacity: endTimeSelected ? 1 : 0.1,
-                          child: GestureDetector(
-                            onTap: () {
-                              endTimeOfDay = DateTime.now();
-                              setState(() {
-                                endTimeSelected = true;
-                                difference = endTimeOfDay
-                                    .difference(startTimeOfDay)
-                                    .inSeconds;
-                                dailyWage =
-                                    (currentUser!.wage! / 3600) * difference;
-                              });
-                            },
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(16)),
-                                padding: const EdgeInsets.all(16),
-                                child: Text(endTimeSelected
-                                    ? 'Your End Time: ${TimeOfDay.fromDateTime(endTimeOfDay).format(context)}'
-                                    : 'End Logging Time')),
-                          ),
-                        ),
-                      ],
+                          // Opacity(
+                          //   opacity: endTimeSelected ? 1 : 0.1,
+                          //   child: GestureDetector(
+                          //     onTap: () {
+                          //       endTimeOfDay = DateTime.now();
+                          //       setState(() {
+                          //         endTimeSelected = true;
+                          //         difference = endTimeOfDay
+                          //             .difference(startTimeOfDay)
+                          //             .inSeconds;
+                          //         dailyWage =
+                          //             (currentUser!.wage! / 3600) * difference;
+                          //       });
+                          //     },
+                          //     child: Container(
+                          //         decoration: BoxDecoration(
+                          //             color: Colors.grey,
+                          //             borderRadius: BorderRadius.circular(16)),
+                          //         padding: const EdgeInsets.all(16),
+                          //         child: Text(endTimeSelected
+                          //             ? 'Your End Time: ${TimeOfDay.fromDateTime(endTimeOfDay).format(context)}'
+                          //             : 'End Logging Time')),
+                          //   ),
+                          // ),
+                      
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Center(child: HeaderTimer()),
+               
                   BlurryContainer(
                     height: 150,
                     width: 300,
