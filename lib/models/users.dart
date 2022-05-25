@@ -12,9 +12,8 @@ class AppUserModel {
   final String? subscriptionEndTIme;
   final String? companyName;
   final String? jobTitle;
-  final double? wage;
+  final String? wage;
 
-  // final Map? sectionsAppointed;
   AppUserModel(
       {this.id,
       this.name,
@@ -62,6 +61,7 @@ class AppUserModel {
         email: map['email'],
         androidNotificationToken: map['androidNotificationToken'],
         jobTitle: map['jobTitle']);
+
   }
 
   factory AppUserModel.fromDocument(doc) {

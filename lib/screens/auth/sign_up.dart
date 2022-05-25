@@ -86,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'imageUrl': url,
             'joinedAt': formattedDate,
             'isAdmin': false,
-            'wage': 10.0,
+            'wage': '10.0',
             'jobTitle': _jobTitle,
             'createdAt': Timestamp.now(),
           });

@@ -299,20 +299,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                         builder: (BuildContext ctx) {
                                           return AlertDialog(
                                             title: Row(
-                                              children: [
-                                                Padding(
+                                              children:const [
+                                                 Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
+                                                      EdgeInsets.only(
                                                           right: 6.0),
-                                                  child: Image.network(
-                                                    'https://image.flaticon.com/icons/png/128/1828/1828304.png',
-                                                    height: 20,
-                                                    width: 20,
-                                                  ),
+                                                  child: Icon(Icons.person),
                                                 ),
-                                                const Padding(
+                                                 Padding(
                                                   padding: EdgeInsets.all(8.0),
-                                                  child: const Text('Sign out'),
+                                                  child:  Text('Sign out'),
                                                 ),
                                               ],
                                             ),

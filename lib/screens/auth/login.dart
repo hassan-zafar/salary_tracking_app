@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:salary_tracking_app/consts/colors.dart';
+import 'package:salary_tracking_app/services/authentication_service.dart';
 import 'package:salary_tracking_app/services/global_method.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-
 import 'forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password = '';
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  GlobalMethods _globalMethods = GlobalMethods();
+  final GlobalMethods _globalMethods = GlobalMethods();
   bool _isLoading = false;
   @override
   void dispose() {
@@ -37,12 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       _formKey.currentState!.save();
       try {
-        await _auth
+        _auth
             .signInWithEmailAndPassword(
                 email: _emailAddress.toLowerCase().trim(),
                 password: _password.trim())
-            .then((value) =>
-                Navigator.canPop(context) ? Navigator.pop(context) : null);
+            .then((value) {
+
+          Navigator.canPop(context) ? Navigator.pop(context) : null;
+        });
       } catch (error) {
         _globalMethods.authErrorHandle(error.toString(), context);
         print('error occured ${error.toString()}');
@@ -91,14 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 120.0,
                   width: 120.0,
                   decoration: BoxDecoration(
-                    //  color: Theme.of(context).backgroundColor,
                     borderRadius: BorderRadius.circular(20),
-                    // image: DecorationImage(
-                    //   image: NetworkImage(
-                    //     'https://image.flaticon.com/icons/png/128/869/869636.png',
-                    //   ),
-                    //   fit: BoxFit.fill,
-                    // ),
                     shape: BoxShape.rectangle,
                   ),
                 ),

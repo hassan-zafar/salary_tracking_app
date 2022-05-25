@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/database/database.dart';
 import 'package:salary_tracking_app/models/users.dart';
 import 'package:salary_tracking_app/widgets/custom_toast%20copy.dart';
 import 'package:salary_tracking_app/widgets/custom_toast.dart';
+
+import '../screens/auth/landing_page.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -18,34 +22,39 @@ class AuthenticationService {
     // UserLocalData().logOut();
   }
 
-  // Future logIn({
-  //   required String email,
-  //   required final String password,
-  // }) async {
-  //   print("here");
-  //   try {
-  //     // final UserCredential result =
-  //     await _firebaseAuth
-  //         .signInWithEmailAndPassword(email: email, password: password)
-  //         .then((value) {
-  //       print(" auth service login: $value");
-  //       print(" auth service login uid: ${value.user!.uid}");
+  Future logIn({
+    required String email,
+    required final String password,
+    required context,
+  }) async {
+    print("here");
+    try {
+      // final UserCredential result =
+      await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        print(" auth service login: $value");
+        print(" auth service login uid: ${value.user!.uid}");
 
-  //       // return value.user!.uid;
-  //       DatabaseMethods()
-  //           .fetchUserInfoFromFirebase(uid: value.user!.uid)
-  //           .then((value) => Get.off(() => LandingPage()));
-  //     });
-  //     // return result.user!.uid;
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'user-not-found') {
-  //       print('No user found for that email.');
-  //       errorToast(message: 'No user found for that email.');
-  //     } else if (e.code == 'wrong-password') {
-  //       print('Wrong password provided for that user.');
-  //     }
-  //   }
-  // }
+        // return value.user!.uid;
+        DatabaseMethods()
+            .fetchUserInfoFromFirebase(uid: value.user!.uid)
+            .then((value) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LandingPage(),
+                )));
+      });
+      // return result.user!.uid;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        errorToast(message: 'No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 
   Future deleteUser(String email, String password) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -81,13 +90,12 @@ class AuthenticationService {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     if (googleAccount != null) {
-
       final GoogleSignInAuthentication googleAuth =
           await googleAccount.authentication;
       print(googleAuth.accessToken);
-      if (googleAuth.accessToken != null 
-      // && googleAuth.idToken != null
-      ) {
+      if (googleAuth.accessToken != null
+          // && googleAuth.idToken != null
+          ) {
         print('now here');
 
         try {

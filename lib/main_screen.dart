@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:salary_tracking_app/models/users.dart';
 import 'package:salary_tracking_app/widgets/bottom_bar.dart';
 
 class MainScreens extends StatelessWidget {

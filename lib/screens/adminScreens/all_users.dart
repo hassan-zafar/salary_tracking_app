@@ -176,8 +176,8 @@ class _UserNSearchState extends State<UserNSearch>
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 "All Users ${userResults.length}",
-                                                style:
-                                                    const TextStyle(fontSize: 20.0),
+                                                style: const TextStyle(
+                                                    fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -207,8 +207,8 @@ class _UserNSearchState extends State<UserNSearch>
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 "All Admins ${allAdmins.length}",
-                                                style:
-                                                    const TextStyle(fontSize: 20.0),
+                                                style: const TextStyle(
+                                                    fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -238,8 +238,8 @@ class _UserNSearchState extends State<UserNSearch>
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 "Katy ${katyUsers.length}",
-                                                style:
-                                                    const TextStyle(fontSize: 20.0),
+                                                style: const TextStyle(
+                                                    fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -300,8 +300,8 @@ class _UserNSearchState extends State<UserNSearch>
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 "Laporte ${laporteUsers.length}",
-                                                style:
-                                                    const TextStyle(fontSize: 20.0),
+                                                style: const TextStyle(
+                                                    fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -331,8 +331,8 @@ class _UserNSearchState extends State<UserNSearch>
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 "All Admins ${allAdmins.length}",
-                                                style:
-                                                    const TextStyle(fontSize: 20.0),
+                                                style: const TextStyle(
+                                                    fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -401,6 +401,7 @@ class _UserNSearchState extends State<UserNSearch>
 
 class UserResult extends StatelessWidget {
   final TimedEvent user;
+  final TextEditingController controller = TextEditingController();
   UserResult(this.user);
   @override
   Widget build(BuildContext context) {
@@ -408,7 +409,50 @@ class UserResult extends StatelessWidget {
       child: Column(
         children: <Widget>[
           GestureDetector(
-            onTap: () => makeAdmin(context),
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text(user.employName),
+                        content: TextField(
+                          controller: controller,
+                          decoration: const InputDecoration(
+                            labelText: "Update Hourly Wage",
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: const Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          FlatButton(
+                            child: const Text("Update"),
+                            onPressed: () {
+                              userRef.doc(user.id).update({
+                                'wage': controller.text.trim(),
+                              }).whenComplete(() {
+                                userRef.doc(user.id).get().then((doc) {
+                                  currentUser = AppUserModel.fromDocument(doc);
+                                });
+                              });
+                              timerRef.doc(user.id).get().then((doc) {
+                                if (doc.exists) {
+                                  timerRef.doc(user.id).update({
+                                    'wage': controller.text.trim(),
+                                  }).then((value) {
+                                    Navigator.of(context).pop();
+                                  });
+                                }
+                              });
+                            },
+                          ),
+                        ],
+                      ));
+            },
+            onDoubleTap: () => makeAdmin(context),
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GlassContainer(
@@ -432,31 +476,41 @@ class UserResult extends StatelessWidget {
                             ),
                           ),
                         ]),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            user.companyName,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              user.companyName,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
+                            Text(
+                              'Current Wage: \$${user.wage}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            )
+                          ],
                         ),
                         Row(
                           children: [
-                            const Text('Total Time: ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),),
+                            const Text(
+                              'Total Time: ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
                             Text(user.totalSecondsPerSession
                                 .formatSecondsToTimeWithFormat),
                           ],
                         ),
                         Row(
                           children: [
-                            const Text('Computed Wage: ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),),
-                            Text((user.wage *
-                                    (user.totalSecondsPerSession / 3600))
-                                .toStringAsFixed(2)),
+                            const Text(
+                              'Computed Wage: ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
+                            Text(
+                                '\$${(double.parse(user.wage) * (user.totalSecondsPerSession / 3600)).toStringAsFixed(2)}'),
                           ],
                         ),
                       ],

@@ -34,7 +34,7 @@ class _UserStateState extends State<UserState> {
                 print('The user is already logged in');
                 return
                     //  BottomBarScreen();
-                    currentUser != null ? const MainScreens() : null;
+                    currentUser != null ? const MainScreens() : LandingPage();
               });
               return const MainScreens();
             } else {

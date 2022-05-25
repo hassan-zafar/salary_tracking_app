@@ -9,7 +9,7 @@ class TimedEvent {
   final String companyName;
   final String employName;
   final String imageUrl;
-  final double wage;
+  final String wage;
   final bool isAdmin;
   // final Timestamp date;
   final int totalSecondsPerSession;
@@ -68,7 +68,7 @@ class TimedEvent {
       String? employName,
       Timestamp? date,
       bool? isAdmin,
-      double? wage,
+      String? wage,
       String? imageUrl,
       int? totalSecondsPerSession}) {
     return TimedEvent(

@@ -10,7 +10,7 @@ class EmployeeTimeModel {
   final String? employeeId;
   final String? companyName;
   final String? jobTitle;
-  final double? wage;
+  final String? wage;
   final int? totalTime;
 
   EmployeeTimeModel({

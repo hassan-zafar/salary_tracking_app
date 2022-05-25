@@ -159,7 +159,7 @@ class _UserInfoState extends State<UserInfo> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                
+
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: userTitle(title: 'User Information'),
@@ -218,23 +218,19 @@ class _UserInfoState extends State<UserInfo> {
                                 builder: (BuildContext ctx) {
                                   return AlertDialog(
                                     title: Row(
-                                      children: [
+                                      children: const [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 6.0),
-                                          child: Image.network(
-                                            'https://image.flaticon.com/icons/png/128/1828/1828304.png',
-                                            height: 20,
-                                            width: 20,
-                                          ),
+                                          padding: EdgeInsets.only(right: 6.0),
+                                          child: Icon(Icons.person),
                                         ),
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.all(8.0),
                                           child: Text('Sign out'),
                                         ),
                                       ],
                                     ),
-                                    content: const Text('Do you wanna Sign out?'),
+                                    content:
+                                        const Text('Do you wanna Sign out?'),
                                     actions: [
                                       TextButton(
                                           onPressed: () async {
