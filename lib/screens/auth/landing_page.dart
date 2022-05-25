@@ -12,6 +12,8 @@ import 'package:salary_tracking_app/widgets/custom_toast%20copy.dart';
 import 'login.dart';
 
 class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
   @override
   _LandingPageState createState() => _LandingPageState();
 }
@@ -258,76 +260,77 @@ class _LandingPageState extends State<LandingPage>
           const SizedBox(
             height: 30,
           ),
-          Row(
-            children: const [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    color: Colors.white,
-                    thickness: 2,
-                  ),
-                ),
-              ),
-              Text(
-                'Or continue with',
-                style: TextStyle(color: Colors.black),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    color: Colors.white,
-                    thickness: 2,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : OutlineButton(
-                      onPressed: () async {
-                        final bool? _login =
-                            await AuthenticationService().signinWithGoogle();
-                        print(_login);
-                        if (_login!) {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                            builder: (context) => const MainScreens(),
-                          ));
-                        } else {
-                          CustomToast.errorToast(
-                              message: 'server not available');
-                          // Navigator.of(context).pop();
-                        }
-                      },
-                      shape: const StadiumBorder(),
-                      highlightedBorderColor: Colors.red.shade200,
-                      borderSide: const BorderSide(width: 2, color: Colors.red),
-                      child: const Text('Google'),
-                    ),
-              // _isLoading
-              //     ? const CircularProgressIndicator()
-              //     : OutlineButton(
-              //         onPressed: () {
-              //           _loginAnonymosly();
-              //           // Navigator.pushNamed(context, BottomBarScreen.routeName);
-              //         },
-              //         shape: const StadiumBorder(),
-              //         highlightedBorderColor: Colors.deepPurple.shade200,
-              //         borderSide:
-              //             const BorderSide(width: 2, color: Colors.deepPurple),
-              //         child: const Text('Sign in as a guest'),
-              //       ),
-            ],
-          ),
+          // Row(
+          //   children: const [
+          //     Expanded(
+          //       child: Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 10),
+          //         child: Divider(
+          //           color: Colors.white,
+          //           thickness: 2,
+          //         ),
+          //       ),
+          //     ),
+          //     Text(
+          //       'Or continue with',
+          //       style: TextStyle(color: Colors.black),
+          //     ),
+          //     Expanded(
+          //       child: Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 10),
+          //         child: Divider(
+          //           color: Colors.white,
+          //           thickness: 2,
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 30,
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     _isLoading
+          //         ? const CircularProgressIndicator()
+          //         : OutlineButton(
+          //             onPressed: () async {
+          //               final bool? _login =
+          //                   await AuthenticationService().signinWithGoogle();
+          //               print(_login);
+          //               if (_login!) {
+          //                 Navigator.of(context)
+          //                     .pushReplacement(MaterialPageRoute(
+          //                   builder: (context) => const MainScreens(),
+          //                 ));
+          //               } else {
+          //                 CustomToast.errorToast(
+          //                     message: 'server not available');
+          //                 // Navigator.of(context).pop();
+          //               }
+          //             },
+          //             shape: const StadiumBorder(),
+          //             highlightedBorderColor: Colors.red.shade200,
+          //             borderSide: const BorderSide(width: 2, color: Colors.red),
+          //             child: const Text('Google'),
+          //           ),
+          //     // _isLoading
+          //     //     ? const CircularProgressIndicator()
+          //     //     : OutlineButton(
+          //     //         onPressed: () {
+          //     //           _loginAnonymosly();
+          //     //           // Navigator.pushNamed(context, BottomBarScreen.routeName);
+          //     //         },
+          //     //         shape: const StadiumBorder(),
+          //     //         highlightedBorderColor: Colors.deepPurple.shade200,
+          //     //         borderSide:
+          //     //             const BorderSide(width: 2, color: Colors.deepPurple),
+          //     //         child: const Text('Sign in as a guest'),
+          //     //       ),
+          //   ],
+          // ),
+         
           const SizedBox(
             height: 40,
           ),

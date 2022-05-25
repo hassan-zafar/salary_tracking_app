@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hassan.salary_tracking_app">
    <application
-        android:label="salary_tracking_app"
+        android:label="Wage Me"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

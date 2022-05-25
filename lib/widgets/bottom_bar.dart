@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/consts/my_icons.dart';
 import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
-import 'package:salary_tracking_app/screens/adminScreens/allUsers.dart';
-import 'package:salary_tracking_app/screens/adminScreens/chatLists.dart';
+import 'package:salary_tracking_app/screens/adminScreens/all_users.dart';
+import 'package:salary_tracking_app/screens/adminScreens/chat_lists.dart';
 import 'package:salary_tracking_app/screens/adminScreens/uploadVideo.dart';
 import 'package:salary_tracking_app/screens/employe_page.dart';
 import 'package:salary_tracking_app/screens/home_page.dart';
@@ -28,7 +28,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     pages = [
       const EmployeePage(),
       const UserInfoScreen(),
-      HomePage(),
+      // HomePage(),
       UserNSearch(),
       ChatLists(),
     ];
@@ -51,7 +51,6 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -99,19 +98,11 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                             label: 'Home Page'),
                         const BottomNavigationBarItem(
                             icon: Icon(
-                              Icons.home,
+                              Icons.person,
                             ),
                             label: 'Log Page'),
                         const BottomNavigationBarItem(
-                            icon: Icon(
-                              Icons.people,
-                            ),
-                            label: 'All Users'),
-                        BottomNavigationBarItem(
-                            icon: Icon(
-                              MyAppIcons.user,
-                            ),
-                            label: 'My Profile'),
+                            icon: Icon(Icons.people), label: 'Employe Data'),
                         const BottomNavigationBarItem(
                             icon: Icon(
                               Icons.chat_bubble,

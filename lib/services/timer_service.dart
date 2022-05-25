@@ -1,20 +1,37 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/database/local_database.dart';
 import 'package:salary_tracking_app/helpers.dart';
 import 'package:salary_tracking_app/models/timed_event.dart';
 
 class TimerService with ChangeNotifier {
-  List<TimedEvent> _timedEvents = [];
-  List<TimedEvent> get timedEvents => _timedEvents.reversed.toList();
+  TimedEvent? _timedEvents;
+  // = TimedEvent(
+  //     id: currentUser!=null?int.parse(currentUser!.id!):0,
+  //     title: 'New Event',
+  //     time: '00:00:00',
+  //     companyName:'asd',
+  //     employName: 'asd',
+  //     imageUrl: 'asd',
+  //     // date: Timestamp.now(),
+  //     active: true,
+  //     totalSecondsPerSession: 0,
+  //     startTime: '00:00:00',
+  //     wage: currentUser!.wage!,
+  //     isAdmin: currentUser!.isAdmin!);
+  TimedEvent get timedEvents => _timedEvents!;
+  List<TimedEvent> _timedEventsList = [];
+  List<TimedEvent> get timedEventsList => _timedEventsList.reversed.toList();
 
   Timer? timer;
 
-  bool get timerActive => _timedEvents.any((e) => e.active);
-  TimedEvent get activeEvent => _timedEvents.firstWhere((e) => e.active);
+  bool get timerActive =>
+      _timedEvents != null && _timedEvents!.active ? true : false;
+  // TimedEvent get activeEvent => _timedEventsList.firstWhere((e) => e.active);
+  TimedEvent get activeEvent => _timedEvents!;
 
   int _seconds = 0;
   String get currentTime {
@@ -35,19 +52,16 @@ class TimerService with ChangeNotifier {
   }
 
   void save() {
-    String data = jsonEncode(
-        _timedEvents.map((event) => TimedEvent.toMap(event)).toList());
+    String data = jsonEncode(_timedEvents!.toMap());
 
     GetStorage().write('events', data);
   }
 
   void load() {
     String data = UserLocalData().getEvents();
-        print('data : $data');
-if (data != null && data.isNotEmpty) {
-      _timedEvents = jsonDecode(data)
-          .map<TimedEvent>((item) => TimedEvent.fromJson(item))
-          .toList();
+    print('data : $data');
+    if (data != null && data.isNotEmpty) {
+      _timedEvents = TimedEvent.fromJson(jsonDecode(data));
     }
 
     if (timerActive) {
@@ -65,13 +79,21 @@ if (data != null && data.isNotEmpty) {
     DateTime startTime = DateTime.now();
 
     TimedEvent newEvent = TimedEvent(
-        id: startTime.millisecondsSinceEpoch,
+        id: currentUser!.id!,
         title: 'New Event',
         time: '00:00:00',
+        companyName: currentUser!.companyName!,
+        employName: currentUser!.name!,
+        imageUrl: currentUser!.imageUrl!,
+        // date: Timestamp.now(),
         active: true,
-        startTime: startTime.toIso8601String());
+        totalSecondsPerSession: _seconds,
+        startTime: startTime.toIso8601String(),
+        wage: currentUser!.wage!,
+        isAdmin: currentUser!.isAdmin!);
+    _timedEventsList.add(newEvent);
 
-    _timedEvents.add(newEvent);
+    _timedEvents = newEvent;
     notifyListeners();
 
     _seconds = 0;
@@ -81,7 +103,7 @@ if (data != null && data.isNotEmpty) {
   }
 
   void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _seconds++;
       notifyListeners();
     });
@@ -92,37 +114,49 @@ if (data != null && data.isNotEmpty) {
 
     timer!.cancel();
     TimedEvent event = activeEvent.copyWith(
-      active: false,
-      time: currentTime,
-    );
+        active: false, time: currentTime, totalSecondsPerSession: _seconds);
 
-    int currentIndex = _timedEvents.indexWhere((e) => e.active);
-    _timedEvents[currentIndex] = event;
+    // int currentIndex = _timedEventsList.indexWhere((e) => e.active);
+    // _timedEventsList[currentIndex] = event;
+    _timedEvents = event;
     save();
+    print(_timedEvents!.id);
+    print(currentUser!.id);
+    timerRef.doc(currentUser!.id).get().then((value) {
+      if (value.exists) {
+        TimedEvent event = TimedEvent.fromDocument(value);
+        timerRef.doc(currentUser!.id).update({
+          'totalSecondsPerSession': event.totalSecondsPerSession +
+              _timedEvents!.totalSecondsPerSession
+        });
+      } else {
+        timerRef.doc(currentUser!.id).set(_timedEvents!.toMap());
+      }
+    });
     notifyListeners();
   }
 
-  void delete(int id) {
-    _timedEvents.removeWhere((e) => e.id == id && e.active == false);
-    notifyListeners();
-    save();
-  }
+  // void delete(int id) {
+  //   _timedEventsList.removeWhere((e) => e.id == id && e.active == false);
+  //   notifyListeners();
+  //   save();
+  // }
 
-  void edit(int id, String title) {
-    TimedEvent updatedEvent =
-        _timedEvents.firstWhere((e) => e.id == id).copyWith(title: title);
-    int index = _timedEvents.indexWhere((e) => e.id == id);
-    _timedEvents[index] = updatedEvent;
-    notifyListeners();
-    save();
-  }
+  // void edit(int id, String title) {
+  //   TimedEvent updatedEvent =
+  //       _timedEventsList.firstWhere((e) => e.id == id).copyWith(title: title);
+  //   int index = _timedEventsList.indexWhere((e) => e.id == id);
+  //   _timedEventsList[index] = updatedEvent;
+  //   notifyListeners();
+  //   save();
+  // }
 
-  void clearAllData() {
-    if (timer != null && timer!.isActive) {
-      timer!.cancel();
-    }
-    _timedEvents = [];
-    save();
-    notifyListeners();
-  }
+  // void clearAllData() {
+  //   if (timer != null && timer!.isActive) {
+  //     timer!.cancel();
+  //   }
+  //   _timedEventsList = [];
+  //   save();
+  //   notifyListeners();
+  // }
 }

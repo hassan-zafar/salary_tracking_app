@@ -26,16 +26,15 @@ class _UserStateState extends State<UserState> {
           } else if (userSnapshot.connectionState == ConnectionState.active) {
             if (userSnapshot.hasData) {
               print('userSnapshot.hasData ${userSnapshot.hasData}');
-               uid = userSnapshot.data!.uid;
+              uid = userSnapshot.data!.uid;
               DatabaseMethods()
                   .fetchUserInfoFromFirebase(uid: userSnapshot.data!.uid)
                   .then((value) {
-                      
                 currentUser = value;
                 print('The user is already logged in');
                 return
                     //  BottomBarScreen();
-                    const MainScreens();
+                    currentUser != null ? const MainScreens() : null;
               });
               return const MainScreens();
             } else {

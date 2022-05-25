@@ -2,12 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:salary_tracking_app/Extensions/integer_extensions.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/models/users.dart';
 import 'package:salary_tracking_app/services/authentication_service.dart';
 import 'package:salary_tracking_app/widgets/custom_toast%20copy.dart';
 import 'package:salary_tracking_app/widgets/loadingWidget.dart';
 
+import '../../models/timed_event.dart';
 import '../auth/landing_page.dart';
 
 class UserNSearch extends StatefulWidget {
@@ -52,13 +54,13 @@ class _UserNSearchState extends State<UserNSearch>
         controller: searchController,
         decoration: InputDecoration(
             hintText: "Search",
-            hintStyle: TextStyle(color: Colors.black),
-            prefixIcon: Icon(
+            hintStyle: const TextStyle(color: Colors.black),
+            prefixIcon: const Icon(
               Icons.search,
               color: Colors.black,
             ),
             suffixIcon: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.clear,
                 color: Colors.black,
               ),
@@ -78,9 +80,10 @@ class _UserNSearchState extends State<UserNSearch>
         }
         List<UserResult> searchResults = [];
         snapshot.data!.docs.forEach((doc) {
-          String completeName = doc["name"].toString().toLowerCase().trim();
+          String completeName =
+              doc["employName"].toString().toLowerCase().trim();
           if (completeName.contains(searchController.text)) {
-            AppUserModel user = AppUserModel.fromDocument(doc);
+            TimedEvent user = TimedEvent.fromDocument(doc);
             setState(() {
               UserResult searchResult = UserResult(user);
               searchResults.add(searchResult);
@@ -111,7 +114,7 @@ class _UserNSearchState extends State<UserNSearch>
     return Stack(
       children: [
         StreamBuilder<QuerySnapshot>(
-            stream: userRef.snapshots(),
+            stream: timerRef.snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return LoadingIndicator();
@@ -123,11 +126,11 @@ class _UserNSearchState extends State<UserNSearch>
               List<UserResult> houstonUsers = [];
 
               snapshot.data!.docs.forEach((doc) {
-                AppUserModel user = AppUserModel.fromDocument(doc);
+                TimedEvent user = TimedEvent.fromDocument(doc);
 
                 //remove auth user from recommended list
                 userResults.add(UserResult(user));
-                if (user.isAdmin!) {
+                if (user.isAdmin) {
                   UserResult adminResult = UserResult(user);
                   allAdmins.add(adminResult);
                 } else if (user.companyName == 'Katy') {
@@ -140,7 +143,7 @@ class _UserNSearchState extends State<UserNSearch>
               });
               return GlassContainer(
                 child: ListView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   children: <Widget>[
                     currentUser!.isAdmin!
                         ? Container(
@@ -158,7 +161,7 @@ class _UserNSearchState extends State<UserNSearch>
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -174,7 +177,7 @@ class _UserNSearchState extends State<UserNSearch>
                                               child: Text(
                                                 "All Users ${userResults.length}",
                                                 style:
-                                                    TextStyle(fontSize: 20.0),
+                                                    const TextStyle(fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -189,7 +192,7 @@ class _UserNSearchState extends State<UserNSearch>
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -205,7 +208,7 @@ class _UserNSearchState extends State<UserNSearch>
                                               child: Text(
                                                 "All Admins ${allAdmins.length}",
                                                 style:
-                                                    TextStyle(fontSize: 20.0),
+                                                    const TextStyle(fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -220,7 +223,7 @@ class _UserNSearchState extends State<UserNSearch>
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -236,7 +239,7 @@ class _UserNSearchState extends State<UserNSearch>
                                               child: Text(
                                                 "Katy ${katyUsers.length}",
                                                 style:
-                                                    TextStyle(fontSize: 20.0),
+                                                    const TextStyle(fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -251,7 +254,7 @@ class _UserNSearchState extends State<UserNSearch>
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -298,7 +301,7 @@ class _UserNSearchState extends State<UserNSearch>
                                               child: Text(
                                                 "Laporte ${laporteUsers.length}",
                                                 style:
-                                                    TextStyle(fontSize: 20.0),
+                                                    const TextStyle(fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -313,7 +316,7 @@ class _UserNSearchState extends State<UserNSearch>
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -329,7 +332,7 @@ class _UserNSearchState extends State<UserNSearch>
                                               child: Text(
                                                 "All Admins ${allAdmins.length}",
                                                 style:
-                                                    TextStyle(fontSize: 20.0),
+                                                    const TextStyle(fontSize: 20.0),
                                               ),
                                             ),
                                           ),
@@ -346,27 +349,27 @@ class _UserNSearchState extends State<UserNSearch>
                         ? Column(
                             children: allAdmins,
                           )
-                        : Text(""),
+                        : const Text(""),
                     typeSelected == 'users'
                         ? Column(
                             children: userResults.toList(),
                           )
-                        : Text(''),
+                        : const Text(''),
                     typeSelected == 'Katy'
                         ? Column(
                             children: katyUsers.toList(),
                           )
-                        : Text(''),
+                        : const Text(''),
                     typeSelected == 'Houston'
                         ? Column(
                             children: houstonUsers.toList(),
                           )
-                        : Text(''),
+                        : const Text(''),
                     typeSelected == 'Laporte'
                         ? Column(
                             children: laporteUsers.toList(),
                           )
-                        : Text(''),
+                        : const Text(''),
                   ],
                 ),
               );
@@ -386,8 +389,8 @@ class _UserNSearchState extends State<UserNSearch>
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.red,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text("LogOut"),
                   )),
             ))
@@ -397,7 +400,7 @@ class _UserNSearchState extends State<UserNSearch>
 }
 
 class UserResult extends StatelessWidget {
-  final AppUserModel user;
+  final TimedEvent user;
   UserResult(this.user);
   @override
   Widget build(BuildContext context) {
@@ -413,31 +416,49 @@ class UserResult extends StatelessWidget {
                   shadowStrength: 8,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
+                        Row(children: [
                           CircleAvatar(
                             backgroundImage:
-                                CachedNetworkImageProvider(user.imageUrl!),
+                                CachedNetworkImageProvider(user.imageUrl),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              user.name!,
-                              style: TextStyle(fontSize: 20.0),
+                              user.employName,
+                              style: const TextStyle(fontSize: 20.0),
                             ),
                           ),
-                         
                         ]),
-                         Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              user.companyName!,
-                              style: const TextStyle(fontWeight: FontWeight.bold,
-                                fontSize: 20.0),
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            user.companyName,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
+                        ),
+                        Row(
+                          children: [
+                            const Text('Total Time: ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),),
+                            Text(user.totalSecondsPerSession
+                                .formatSecondsToTimeWithFormat),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text('Computed Wage: ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),),
+                            Text((user.wage *
+                                    (user.totalSecondsPerSession / 3600))
+                                .toStringAsFixed(2)),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -472,13 +493,13 @@ class UserResult extends StatelessWidget {
         builder: (context) {
           return SimpleDialog(
             children: <Widget>[
-              user.isAdmin! && user.id != currentUser!.id
+              user.isAdmin && user.id != currentUser!.id
                   ? SimpleDialogOption(
                       onPressed: () {
                         Navigator.pop(context);
                         makeAdminFunc("Rank changed to User");
                       },
-                      child: Text(
+                      child: const Text(
                         'Make User',
                       ),
                     )
@@ -487,23 +508,24 @@ class UserResult extends StatelessWidget {
                         Navigator.pop(context);
                         makeAdminFunc("Upgraded to Admin");
                       },
-                      child: Text(
+                      child: const Text(
                         'Make Admin',
                       ),
                     ),
               SimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context);
-                  deleteUser(user.email!, user.password!);
+
+                  deleteUser(user.id.toString());
                 },
-                child: Text(
+                child: const Text(
                   'Delete User',
                   style: TextStyle(color: Colors.red),
                 ),
               ),
               SimpleDialogOption(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               )
             ],
           );
@@ -511,7 +533,7 @@ class UserResult extends StatelessWidget {
   }
 
   void makeAdminFunc(String msg) {
-    userRef.doc(user.id).update({"isAdmin": !user.isAdmin!});
+    userRef.doc(user.id.toString()).update({"isAdmin": !user.isAdmin});
     addToFeed(msg);
 
     // CustomToast.successToast(message: msg);
@@ -530,8 +552,15 @@ class UserResult extends StatelessWidget {
     //   "productId": "",
     // });
   }
-  void deleteUser(String email, String password) async {
-    AuthenticationService().deleteUser(email, password);
-    CustomToast.successToast(message: 'User Deleted Refresh');
+  void deleteUser(
+    String id,
+  ) async {
+    userRef.doc(id).get().then((value) {
+      if (value.exists) {
+        AppUserModel user = AppUserModel.fromDocument(value);
+        AuthenticationService().deleteUser(user.email!, user.password!);
+        CustomToast.successToast(message: 'User Deleted Refresh');
+      }
+    });
   }
 }

@@ -29,6 +29,16 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -63,7 +73,7 @@ class DefaultFirebaseOptions {
     projectId: 'wageme-29f75',
     databaseURL: 'https://wageme-29f75-default-rtdb.firebaseio.com',
     storageBucket: 'wageme-29f75.appspot.com',
-    androidClientId: '165461244282-q6n840gepgqm58bcvvvflfnopd9gkoeg.apps.googleusercontent.com',
+    androidClientId: '165461244282-o1or5se0ivj8d8pia9e4pc8n108nvvdt.apps.googleusercontent.com',
     iosClientId: '165461244282-6iu1m9dp6hg5efsm5662sht2gn6i5ngv.apps.googleusercontent.com',
     iosBundleId: 'com.example.salaryTrackingApp',
   );
