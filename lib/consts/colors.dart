@@ -13,11 +13,11 @@ class ColorsConsts {
   static Color cartColor = const Color(0xFF5E35B1); //deep purple 600
   static Color cartBadgeColor = const Color(0xFFBA68C8); //purple 300
 
-  static Color gradiendFStart = Colors.yellow.shade200; //purpleaccent 100
-  static Color gradiendFEnd = Colors.orange.shade900; //purple 100
-  static Color endColor = const Color(0xFFCE93D8); //purple 200
+  static Color gradiendFStart = Colors.blue.shade700; //purpleaccent 100
+  static Color gradiendFEnd = Colors.blue.shade400; //purple 100
   static Color purple300 = const Color(0xFFBA68C8); //purple 300
   static Color gradiendLEnd = Colors.green; //Pink
   static Color gradiendLStart =  Colors.yellowAccent; //purple 500
   static Color starterColor = const Color(0xFF8E24AA); //purple 600
+  static Color endColor = const Color(0xFFCE93D8); //purple 200
   static Color purple800 = const Color(0xFF6A1B9A);}

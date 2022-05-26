@@ -58,7 +58,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           end: Alignment.bottomCenter,
           colors: [
             ColorsConsts.gradiendFStart,
-            Colors.orange,
+            Colors.blue.shade700,
             ColorsConsts.gradiendFEnd,
           ],
         ),
