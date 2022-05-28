@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/database/local_database.dart';
 import 'package:salary_tracking_app/helpers.dart';
 import 'package:salary_tracking_app/models/timed_event.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TimerService with ChangeNotifier {
   TimedEvent? _timedEvents;
@@ -23,8 +23,8 @@ class TimerService with ChangeNotifier {
   //     wage: currentUser!.wage!,
   //     isAdmin: currentUser!.isAdmin!);
   TimedEvent get timedEvents => _timedEvents!;
-  List<TimedEvent> _timedEventsList = [];
-  List<TimedEvent> get timedEventsList => _timedEventsList.reversed.toList();
+  // List<TimedEvent> _timedEventsList = [];
+  // List<TimedEvent> get timedEventsList => _timedEventsList.reversed.toList();
 
   Timer? timer;
 
@@ -53,24 +53,28 @@ class TimerService with ChangeNotifier {
 
   void save() {
     String data = jsonEncode(_timedEvents!.toMap());
-
-    GetStorage().write('events', data);
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString('EVENTS', data);
+    });
   }
 
   void load() {
-    String data = UserLocalData().getEvents();
-    print('data : $data');
-    if (data != null && data.isNotEmpty) {
-      _timedEvents = TimedEvent.fromJson(jsonDecode(data));
-    }
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs.containsKey('EVENTS')) {
+        String data = prefs.getString('EVENTS')!;
+        _timedEvents = jsonDecode(data)
+            .map<TimedEvent>((item) => TimedEvent.fromJson(item))
+            .toList();
 
-    if (timerActive) {
-      DateTime startTime = DateTime.parse(activeEvent.startTime);
-      _seconds = DateTime.now().difference(startTime).inSeconds;
-      startTimer();
-    }
+        if (timerActive) {
+          DateTime startTime = DateTime.parse(activeEvent.startTime);
+          _seconds = DateTime.now().difference(startTime).inSeconds;
+          startTimer();
+        }
 
-    notifyListeners();
+        notifyListeners();
+      }
+    });
   }
 
   void addNew() {
@@ -91,7 +95,7 @@ class TimerService with ChangeNotifier {
         startTime: startTime.toIso8601String(),
         wage: currentUser!.wage!,
         isAdmin: currentUser!.isAdmin!);
-    _timedEventsList.add(newEvent);
+    // _timedEventsList.add(newEvent);
 
     _timedEvents = newEvent;
     notifyListeners();

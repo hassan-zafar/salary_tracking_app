@@ -1,19 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/consts/consants.dart';
-import 'package:salary_tracking_app/database/database.dart';
-import 'package:salary_tracking_app/models/users.dart';
-import 'package:salary_tracking_app/provider/auto_play_provider.dart';
-import 'package:salary_tracking_app/provider/background_play_provider.dart';
-import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
-import 'package:salary_tracking_app/provider/notification_preferences.dart';
 import 'package:salary_tracking_app/screens/adminScreens/commentsNChatAdmin.dart';
-import 'package:salary_tracking_app/widgets/loadingWidget.dart';
-import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class UserInfoScreen extends StatefulWidget {

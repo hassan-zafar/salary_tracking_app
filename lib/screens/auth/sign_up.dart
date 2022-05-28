@@ -138,16 +138,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.orange,
-              Colors.yellow.shade200,
-              Colors.orange.shade900,
-            ],
-          ),
-        ),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.orange,
+                  Colors.yellow.shade200,
+                  Colors.orange.shade900,
+                ],
+              ),
+            ),
             height: MediaQuery.of(context).size.height * 0.95,
             child: RotatedBox(
               quarterTurns: 2,
@@ -224,7 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               children: [
                                                 const Padding(
                                                   padding: EdgeInsets.all(8.0),
-                                                  child: const Icon(
+                                                  child: Icon(
                                                     Icons.camera,
                                                     color: Colors.purpleAccent,
                                                   ),
@@ -248,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               children: [
                                                 const Padding(
                                                   padding: EdgeInsets.all(8.0),
-                                                  child: const Icon(
+                                                  child: Icon(
                                                     Icons.image,
                                                     color: Colors.purpleAccent,
                                                   ),
@@ -269,17 +269,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             onTap: _remove,
                                             splashColor: Colors.purpleAccent,
                                             child: Row(
-                                              children: [
-                                                const Padding(
+                                              children: const [
+                                                 Padding(
                                                   padding: EdgeInsets.all(8.0),
-                                                  child: const Icon(
+                                                  child:  Icon(
                                                     Icons.remove_circle,
                                                     color: Colors.red,
                                                   ),
                                                 ),
-                                                const Text(
+                                                 Text(
                                                   'Remove',
-                                                  style: const TextStyle(
+                                                  style:  TextStyle(
                                                       fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w500,

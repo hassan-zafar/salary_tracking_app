@@ -4,11 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:salary_tracking_app/main_screen.dart';
-import 'package:salary_tracking_app/provider/auto_play_provider.dart';
-import 'package:salary_tracking_app/provider/background_play_provider.dart';
 import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
 import 'package:salary_tracking_app/provider/employee_time.dart';
-import 'package:salary_tracking_app/provider/notification_preferences.dart';
 import 'package:salary_tracking_app/screens/auth/forget_password.dart';
 import 'package:salary_tracking_app/screens/auth/login.dart';
 import 'package:salary_tracking_app/screens/auth/sign_up.dart';
@@ -67,9 +64,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   DarkThemeProvider themeChangeProvider = DarkThemeProvider();
-  AutoPlayProvider autoPlayChangeProvider = AutoPlayProvider();
-  NotificationSetProvider notificationSetProvider = NotificationSetProvider();
-  BackgroundPlayProvider backgroundPlayProvider = BackgroundPlayProvider();
 
   void getCurrentAppTheme() async {
     themeChangeProvider.darkTheme =

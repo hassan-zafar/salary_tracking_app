@@ -84,9 +84,7 @@ class _EmployeePageState extends State<EmployeePage> {
           // ),
 
           body: SingleChildScrollView(
-        child: currentUser == null
-            ? Center(child: LoadingIndicator())
-            : Form(
+        child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,15 +1,13 @@
-import 'package:get_storage/get_storage.dart';
-import 'package:salary_tracking_app/models/users.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLocalData {
   String s = 'sd';
-  final getStorageProference = GetStorage();
+  SharedPreferences? _preferences;
 
-  // Future init() async => _preferences = await SharedPreferences.getInstance();
+  Future init() async => _preferences = await SharedPreferences.getInstance();
 
-  // Future<bool> logOut() => _preferences.clear();
+  Future<bool> logOut() => _preferences!.clear();
 
-  Future logOut() => getStorageProference.erase();
   final _userModelString = 'USERMODELSTRING';
   final _uidKey = 'UIDKEY';
   final _isLoggedIn = "ISLOGGEDIN";
@@ -23,62 +21,35 @@ class UserLocalData {
   final _isAutoPlay = 'AUTOPLAY';
   final _token = 'TOKEN';
   final _events = 'EVENTS';
+  final _activeEvents = 'ACTIVEEVENTS';
 
   //
   // Setters
   //
 
   Future set1stOpen() async {
-    getStorageProference.write(_isAutoPlay, true);
-    getStorageProference.write(_notificationSet, true);
+    _preferences!.setBool(_isAutoPlay, true);
+    _preferences!.setBool(_notificationSet, true);
   }
 
-  Future setNotification(bool? notificationSet) async =>
-      getStorageProference.write(_notificationSet, notificationSet);
-  Future setIsAutoPlay(bool? isAutoPlay) async =>
-      getStorageProference.write(_isAutoPlay, isAutoPlay);
-
-  Future setUserModel(String userModel) async =>
-      getStorageProference.write(_userModelString, userModel);
-  Future setUserEmail(String? email) async =>
-      getStorageProference.write(_emailKey, email);
-  Future setname(String? name) async =>
-      getStorageProference.write(_nameKey, name);
-  Future setToken(String token) async =>
-      getStorageProference.write(_token, token);
 
   Future setEvents(String events) async =>
-      getStorageProference.write(_events, events);
+      _preferences!.setString(_events, events);
 
-  Future setIsAdmin(bool? isAdmin) async =>
-      getStorageProference.write(_isAdmin, isAdmin);
 
-  Future setUserUID(String? uid) async =>
-      getStorageProference.write(_uidKey, uid);
 
-  Future setNotLoggedIn() async =>
-      getStorageProference.write(_isLoggedIn, false);
-
-  Future setLoggedIn(bool isLoggedIn) async =>
-      getStorageProference.write(_isLoggedIn, isLoggedIn);
+  Future setActiveEvent(String activeEvents) async =>
+      _preferences!.setString(_activeEvents, activeEvents);
 
   //
   // Getters
   //
 
-  bool? getIsAutoPlay() => getStorageProference.read(_isAutoPlay);
-  bool? getNotification() => getStorageProference.read(_notificationSet);
+  String getEvents() => _preferences!.getString(_events) ?? "";
+  String getActiveEvent() => _preferences!.getString(_activeEvents) ?? "";
 
-  bool? getIsAdmin() => getStorageProference.read(_isAdmin);
-  String getUserData() => getStorageProference.read(_userModelString) ?? '';
-  String getEvents() => getStorageProference.read(_events) ?? "";
-  String getUserUIDGet() => getStorageProference.read(_uidKey) ?? '';
-  bool? isLoggedIn() => getStorageProference.read(_uidKey);
-  String getUserEmail() => getStorageProference.read(_emailKey) ?? '';
-  String getname() => getStorageProference.read(_nameKey) ?? '';
-
-  void storeAppUserData({required AppUserModel appUser, String token = ''}) {
-    setUserUID(appUser.id!);
-    setUserEmail(appUser.email!);
-  }
+  // void storeAppUserData({required AppUserModel appUser, String token = ''}) {
+  //   setUserUID(appUser.id!);
+  //   setUserEmail(appUser.email!);
+  // }
 }

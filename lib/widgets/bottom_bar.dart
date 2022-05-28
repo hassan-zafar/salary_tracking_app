@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
 import 'package:salary_tracking_app/consts/my_icons.dart';
-import 'package:salary_tracking_app/provider/dark_theme_provider.dart';
 import 'package:salary_tracking_app/screens/adminScreens/all_users.dart';
 import 'package:salary_tracking_app/screens/adminScreens/chat_lists.dart';
-import 'package:salary_tracking_app/screens/adminScreens/uploadVideo.dart';
 import 'package:salary_tracking_app/screens/employe_page.dart';
-import 'package:salary_tracking_app/screens/home_page.dart';
 import 'package:salary_tracking_app/screens/user_info.dart';
-import 'package:provider/provider.dart';
-
 import '../consts/colors.dart';
 
 class BottomBarScreen extends StatefulWidget {
   static const routeName = '/BottomBarScreen';
+
+  const BottomBarScreen({Key? key}) : super(key: key);
   @override
   _BottomBarScreenState createState() => _BottomBarScreenState();
 }
@@ -84,7 +81,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
               ),
               child: BottomNavigationBar(
                 onTap: _selectPage,
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: ColorsConsts.gradiendFEnd,
                 unselectedItemColor: Colors.white,
                 selectedItemColor: const Color(0xff805130),
                 currentIndex: _selectedPageIndex,
