@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:salary_tracking_app/Extensions/integer_extensions.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
@@ -414,8 +415,12 @@ class UserResult extends StatelessWidget {
                   context: context,
                   builder: (context) => AlertDialog(
                         title: Text(user.employName),
-                        content: TextField(
+                        content: TextFormField(
                           controller: controller,
+                          validator: dbl('Please enter correct value'),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           decoration: const InputDecoration(
                             labelText: "Update Hourly Wage",
                           ),
@@ -485,7 +490,7 @@ class UserResult extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 20.0),
                             ),
                             Text(
-                              'Current Wage: \$${user.wage}',
+                              'Current Hourly Wage: \$${user.wage}',
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20.0),
                             )
@@ -617,4 +622,18 @@ class UserResult extends StatelessWidget {
       }
     });
   }
+}
+
+FormFieldValidator<String> dbl(String errorMessage) {
+  return (value) {
+    return doubleValidator(value!, errorMessage);
+  };
+}
+
+String? doubleValidator(String? value, String errorMessage) {
+  if (value != null) {
+    final double? valueAsdbl = double.tryParse(value);
+    return valueAsdbl == null && valueAsdbl! > 0.0 ? errorMessage : null;
+  }
+  return errorMessage;
 }

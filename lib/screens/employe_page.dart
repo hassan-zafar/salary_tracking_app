@@ -2,7 +2,6 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salary_tracking_app/consts/collections.dart';
-import 'package:salary_tracking_app/widgets/loadingWidget.dart';
 import 'package:salary_tracking_app/widgets/pause_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../helpers.dart';
@@ -28,7 +27,6 @@ class _EmployeePageState extends State<EmployeePage> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   int difference = 0;
-  double dailyWage = 0.0;
 
   @override
   void initState() {
@@ -262,7 +260,7 @@ class _EmployeePageState extends State<EmployeePage> {
                                             BorderRadius.circular(16)),
                                     padding: const EdgeInsets.all(16),
                                     child: Text(
-                                        "Today's  Wage: \$ ${(double.parse(currentUser!.wage!) * DateTime.now().difference(DateTime.parse(event.startTime)).inHours).toStringAsFixed(2)}")),
+                                        currentUser==null?'':"Today's  Wage: \$ ${(double.parse(currentUser!.wage!) * DateTime.now().difference(DateTime.parse(event.startTime)).inHours).toStringAsFixed(2)}")),
                               ],
                             ),
                           )

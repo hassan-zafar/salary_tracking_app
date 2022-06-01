@@ -62,10 +62,9 @@ class TimerService with ChangeNotifier {
     SharedPreferences.getInstance().then((prefs) {
       if (prefs.containsKey('EVENTS')) {
         String data = prefs.getString('EVENTS')!;
-        _timedEvents = jsonDecode(data)
-            .map<TimedEvent>((item) => TimedEvent.fromJson(item))
-            .toList();
-
+        var asd = jsonDecode(data);
+        print(asd);
+        _timedEvents = TimedEvent.fromJson(asd);
         if (timerActive) {
           DateTime startTime = DateTime.parse(activeEvent.startTime);
           _seconds = DateTime.now().difference(startTime).inSeconds;
@@ -93,7 +92,7 @@ class TimerService with ChangeNotifier {
         active: true,
         totalSecondsPerSession: _seconds,
         startTime: startTime.toIso8601String(),
-        wage: currentUser!.wage!,
+        wage: currentUser == null ? '0.0' : currentUser!.wage!,
         isAdmin: currentUser!.isAdmin!);
     // _timedEventsList.add(newEvent);
 
@@ -131,7 +130,8 @@ class TimerService with ChangeNotifier {
         TimedEvent event = TimedEvent.fromDocument(value);
         timerRef.doc(currentUser!.id).update({
           'totalSecondsPerSession': event.totalSecondsPerSession +
-              _timedEvents!.totalSecondsPerSession
+              _timedEvents!.totalSecondsPerSession,
+          'wage': currentUser!.wage
         });
       } else {
         timerRef.doc(currentUser!.id).set(_timedEvents!.toMap());

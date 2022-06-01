@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _jobTitle = '';
   String _companyName = 'Katy';
   int? _phoneNumber;
-  File? _pickedImage;
+  XFile? _pickedImage;
   String? url;
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -63,20 +65,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
           setState(() {
             _isLoading = true;
           });
+          print('here before uploading image');
           final ref = FirebaseStorage.instance
               .ref()
               .child('usersImages')
               .child(_fullName + '.jpg');
-          await ref.putFile(_pickedImage!);
+          Uint8List imageData = await _pickedImage!.readAsBytes();
+          await ref.putData(imageData);
           url = await ref.getDownloadURL();
           await _auth.createUserWithEmailAndPassword(
               email: _emailAddress.toLowerCase().trim(),
               password: _password.trim());
           final User? user = _auth.currentUser;
           final _uid = user!.uid;
+          print(_uid);
+
           user.updatePhotoURL(url);
           user.updateDisplayName(_fullName);
           user.reload();
+          print('here');
+          print(user.email);
           await FirebaseFirestore.instance.collection('users').doc(_uid).set({
             'id': _uid,
             'name': _fullName,
@@ -106,8 +114,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void _pickImageCamera() async {
     final picker = ImagePicker();
     final pickedImage =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 10);
-    final pickedImageFile = File(pickedImage!.path);
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 10);
+    final pickedImageFile = XFile(pickedImage!.path);
     setState(() {
       _pickedImage = pickedImageFile;
     });
@@ -116,8 +124,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _pickImageGallery() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.getImage(source: ImageSource.gallery);
-    final pickedImageFile = File(pickedImage!.path);
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    final pickedImageFile = XFile(pickedImage!.path);
     setState(() {
       _pickedImage = pickedImageFile;
     });
@@ -190,7 +198,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           backgroundColor: ColorsConsts.gradiendFEnd,
                           backgroundImage: _pickedImage == null
                               ? null
-                              : FileImage(_pickedImage!),
+                              : kIsWeb
+                                  ? NetworkImage(_pickedImage!.path)
+                                      as ImageProvider
+                                  : FileImage(File(_pickedImage!.path)),
                         ),
                       ),
                     ),
@@ -270,16 +281,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             splashColor: Colors.purpleAccent,
                                             child: Row(
                                               children: const [
-                                                 Padding(
+                                                Padding(
                                                   padding: EdgeInsets.all(8.0),
-                                                  child:  Icon(
+                                                  child: Icon(
                                                     Icons.remove_circle,
                                                     color: Colors.red,
                                                   ),
                                                 ),
-                                                 Text(
+                                                Text(
                                                   'Remove',
-                                                  style:  TextStyle(
+                                                  style: TextStyle(
                                                       fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w500,
